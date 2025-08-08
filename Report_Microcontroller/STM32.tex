@@ -1,0 +1,77 @@
+
+\documentclass[12pt,a4paper]{book}
+
+
+\input{Files/Packages}
+
+\input{Files/Macros}
+
+
+\title{Embedded Programming}
+\author{Ranim Tom}
+%\date{August 2021}
+
+
+%******** Abbreviations **********
+
+% to change the name of Nomenclature to list of abbreviation
+\renewcommand{\nomname}{List of Abbreviations}
+
+% for list of abbreviations and acronyms
+\makenomenclature
+
+
+
+\begin{document}
+
+% downloaded template: Cover of the Report
+%\input{content/title_page_1} 
+
+
+
+\maketitle
+
+\tableofcontents
+
+
+
+% to make the list of abbreviations and acronyms appear 
+% in first pages of the report
+\printnomenclature
+
+
+
+
+% to make the todo list appear as a table of content
+\listoftodos
+
+% To adjust the header in the report/book
+
+\pagestyle{fancy}
+\fancyhf{} % Clear header and footer
+\rhead{\rightmark}
+\lhead{Chapter \thechapter}
+\rfoot{Page \thepage}
+
+\input{content/data_representation}
+
+\chapter{Introduction}
+
+\underline{Goal of this Reader:} The purpose of this pseudo book is to document my programming simulation with STM32 microcontroller family.\\
+
+\underline{Micrcontroller Used:} 
+The microcontroller will be used in STM32F103 B (blue pill).
+
+\todo{Adapting Introduction}
+
+\input{content/c_embedded_context_intro}
+
+\input{content/arm_cortex}
+
+\input{content/periph_driver_1}
+
+\bibliographystyle{IEEEtran}
+
+\bibliography{Literature/Embedded_Ref}
+
+\end{document}

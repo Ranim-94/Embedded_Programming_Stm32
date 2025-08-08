@@ -1,0 +1,145 @@
+\contentsline {chapter}{\numberline {1}Data Representation}{9}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Introduction}{9}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Source}{9}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Bit, Byte Word}{10}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Data Types in C}{10}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Number System and Bases}{10}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Base Representation in C code}{10}{subsection.1.5.1}%
+\contentsline {chapter}{\numberline {2}Introduction}{11}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Review of C}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Goal}{13}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Github and Repository}{13}{section.3.2}%
+\contentsline {section}{\numberline {3.3}GNU tools for windows}{13}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Board}{14}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Cable Type}{14}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Creating Project in STMCube IDE}{15}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Creating a Workspace}{15}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Importing Existing Projects}{15}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Creating a project for Host}{16}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Project on Board}{17}{subsection.3.5.4}%
+\contentsline {section}{\numberline {3.6}Data Types in C}{18}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Variables in C program}{19}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Declaration Vs Definition}{19}{subsection.3.7.1}%
+\contentsline {section}{\numberline {3.8}Type Casting}{20}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Hello Stm32}{21}{section.3.9}%
+\contentsline {subsection}{\numberline {3.9.1}Printing Hello world}{21}{subsection.3.9.1}%
+\contentsline {subsection}{\numberline {3.9.2}Cross Compilation}{24}{subsection.3.9.2}%
+\contentsline {subsection}{\numberline {3.9.3}Steps of building the project}{25}{subsection.3.9.3}%
+\contentsline {subsection}{\numberline {3.9.4}Back to Editing mode}{26}{subsection.3.9.4}%
+\contentsline {subsection}{\numberline {3.9.5}Open OCD}{26}{subsection.3.9.5}%
+\contentsline {subsection}{\numberline {3.9.6}Some Extra Settings}{26}{subsection.3.9.6}%
+\contentsline {section}{\numberline {3.10}Build Process}{27}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Analyzing C embedded Code}{29}{section.3.11}%
+\contentsline {subsection}{\numberline {3.11.1}Anatomy of microcontroller}{29}{subsection.3.11.1}%
+\contentsline {subsection}{\numberline {3.11.2}Code Memory}{30}{subsection.3.11.2}%
+\contentsline {subsection}{\numberline {3.11.3}Tracking variable in the memory}{31}{subsection.3.11.3}%
+\contentsline {subsection}{\numberline {3.11.4}Disassembly}{33}{subsection.3.11.4}%
+\contentsline {section}{\numberline {3.12}Floating Point numbers}{34}{section.3.12}%
+\contentsline {subsection}{\numberline {3.12.1}IEEE75 floating}{34}{subsection.3.12.1}%
+\contentsline {section}{\numberline {3.13}Scanf}{36}{section.3.13}%
+\contentsline {section}{\numberline {3.14}Pointers}{37}{section.3.14}%
+\contentsline {section}{\numberline {3.15}stdint and Portability}{38}{section.3.15}%
+\contentsline {section}{\numberline {3.16}Bitwise Operation}{40}{section.3.16}%
+\contentsline {subsection}{\numberline {3.16.1}Testing bit}{41}{subsection.3.16.1}%
+\contentsline {subsection}{\numberline {3.16.2}OR}{42}{subsection.3.16.2}%
+\contentsline {subsection}{\numberline {3.16.3}XOR}{42}{subsection.3.16.3}%
+\contentsline {section}{\numberline {3.17}LED Practice}{43}{section.3.17}%
+\contentsline {subsection}{\numberline {3.17.1}Hardware GPIO,Bus}{43}{subsection.3.17.1}%
+\contentsline {subsection}{\numberline {3.17.2}Peripheral Information}{47}{subsection.3.17.2}%
+\contentsline {subsection}{\numberline {3.17.3}Procedure for turning a LED}{48}{subsection.3.17.3}%
+\contentsline {subsection}{\numberline {3.17.4}Configuring Clocks}{49}{subsection.3.17.4}%
+\contentsline {subsection}{\numberline {3.17.5}Configuring GPIO}{50}{subsection.3.17.5}%
+\contentsline {subsection}{\numberline {3.17.6}Monitoring Registers in Real time}{51}{subsection.3.17.6}%
+\contentsline {section}{\numberline {3.18}Bitwise Operation: shifting}{52}{section.3.18}%
+\contentsline {subsection}{\numberline {3.18.1}Bitwise Right}{52}{subsection.3.18.1}%
+\contentsline {subsection}{\numberline {3.18.2}Bitwise Left}{52}{subsection.3.18.2}%
+\contentsline {subsection}{\numberline {3.18.3}Some notes about bitwise shift}{53}{subsection.3.18.3}%
+\contentsline {subsection}{\numberline {3.18.4}Applicability of Bitwise in Embedded Programming}{54}{subsection.3.18.4}%
+\contentsline {section}{\numberline {3.19}Bit Extraction}{55}{section.3.19}%
+\contentsline {section}{\numberline {3.20}Loop in Embedded programming}{57}{section.3.20}%
+\contentsline {subsection}{\numberline {3.20.1}while loop}{57}{subsection.3.20.1}%
+\contentsline {subsection}{\numberline {3.20.2}do while}{58}{subsection.3.20.2}%
+\contentsline {section}{\numberline {3.21}LED Toggling}{59}{section.3.21}%
+\contentsline {section}{\numberline {3.22}Type Qualifier: const}{60}{section.3.22}%
+\contentsline {section}{\numberline {3.23}Pin read}{63}{section.3.23}%
+\contentsline {subsection}{\numberline {3.23.1}Problem Statement}{63}{subsection.3.23.1}%
+\contentsline {subsection}{\numberline {3.23.2}Hints and Checking}{63}{subsection.3.23.2}%
+\contentsline {subsection}{\numberline {3.23.3}Programming}{63}{subsection.3.23.3}%
+\contentsline {section}{\numberline {3.24}Compiler Optimization}{64}{section.3.24}%
+\contentsline {subsection}{\numberline {3.24.1}Pin Read Optimization}{65}{subsection.3.24.1}%
+\contentsline {section}{\numberline {3.25}Volatile Type Qualifier}{67}{section.3.25}%
+\contentsline {subsection}{\numberline {3.25.1}Use case of volatile}{69}{subsection.3.25.1}%
+\contentsline {subsection}{\numberline {3.25.2}volatile different syntax}{69}{subsection.3.25.2}%
+\contentsline {subsection}{\numberline {3.25.3}volatile and ISR}{70}{subsection.3.25.3}%
+\contentsline {section}{\numberline {3.26}Structure and Bit Field}{71}{section.3.26}%
+\contentsline {subsection}{\numberline {3.26.1}Some Key Concepts}{71}{subsection.3.26.1}%
+\contentsline {subsection}{\numberline {3.26.2}Packet Exercise}{72}{subsection.3.26.2}%
+\contentsline {section}{\numberline {3.27}Union}{73}{section.3.27}%
+\contentsline {subsection}{\numberline {3.27.1}Applicability of Union in embedded programming}{74}{subsection.3.27.1}%
+\contentsline {section}{\numberline {3.28}Bit fields in Embedded Code}{75}{section.3.28}%
+\contentsline {section}{\numberline {3.29}Keypad Interfacing}{77}{section.3.29}%
+\contentsline {subsection}{\numberline {3.29.1}Why Pull up resistors}{78}{subsection.3.29.1}%
+\contentsline {section}{\numberline {3.30}Preprocessor Directive}{80}{section.3.30}%
+\contentsline {subsection}{\numberline {3.30.1}Macros Preprocessor}{80}{subsection.3.30.1}%
+\contentsline {subsection}{\numberline {3.30.2}Conditional Directive}{82}{subsection.3.30.2}%
+\contentsline {section}{\numberline {3.31}Summary: Introduction and Embedded C}{84}{section.3.31}%
+\contentsline {subsection}{\numberline {3.31.1}Code Order}{85}{subsection.3.31.1}%
+\contentsline {chapter}{\numberline {4}Embedded System on Arm Cortex M4/M3}{87}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{87}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Processor Core Vs Processor}{88}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Processor vs Microcontroller}{89}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Operations Modes of Cortex Processor}{90}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Operation Mode Demo}{91}{subsection.4.2.1}%
+\contentsline {section}{\numberline {4.3}Access Levels}{92}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Core Registers}{93}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Memory Mapped vs Non-Memory Mapped Registers}{95}{section.4.5}%
+\contentsline {section}{\numberline {4.6}ARM GCC Inline Assembly}{96}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Code Ex 1}{97}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Code Ex 2: C to ARM Reg}{97}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}ARM to C variable}{98}{subsection.4.6.3}%
+\contentsline {section}{\numberline {4.7}Reset Sequence}{99}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Demo for Access Level}{100}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Memory Map}{101}{section.4.9}%
+\contentsline {subsection}{\numberline {4.9.1}Bus Interface}{102}{subsection.4.9.1}%
+\contentsline {subsection}{\numberline {4.9.2}Bit Banding Feature}{102}{subsection.4.9.2}%
+\contentsline {section}{\numberline {4.10}Stack}{104}{section.4.10}%
+\contentsline {subsection}{\numberline {4.10.1}Stack Exercise}{105}{subsection.4.10.1}%
+\contentsline {subsection}{\numberline {4.10.2}Function Call for Arm Architecture}{106}{subsection.4.10.2}%
+\contentsline {subsection}{\numberline {4.10.3}Stack during Exception and Interrupt}{106}{subsection.4.10.3}%
+\contentsline {section}{\numberline {4.11}Exceptions}{107}{section.4.11}%
+\contentsline {subsection}{\numberline {4.11.1}System Exception}{107}{subsection.4.11.1}%
+\contentsline {section}{\numberline {4.12}System Exception Vector Address}{109}{section.4.12}%
+\contentsline {section}{\numberline {4.13}System Exceptions Control Registers}{110}{section.4.13}%
+\contentsline {section}{\numberline {4.14}NVIC}{112}{section.4.14}%
+\contentsline {subsection}{\numberline {4.14.1}NVIC doc}{112}{subsection.4.14.1}%
+\contentsline {subsection}{\numberline {4.14.2}Interrupt sources}{112}{subsection.4.14.2}%
+\contentsline {subsection}{\numberline {4.14.3}Generic design}{112}{subsection.4.14.3}%
+\contentsline {subsection}{\numberline {4.14.4}NVIC Registers}{114}{subsection.4.14.4}%
+\contentsline {section}{\numberline {4.15}Peripheral Interrupt Exercice}{115}{section.4.15}%
+\contentsline {subsection}{\numberline {4.15.1}Interrupt programing steps}{115}{subsection.4.15.1}%
+\contentsline {section}{\numberline {4.16}Summary: Embedded System on Arm Cortex M3/M4}{117}{section.4.16}%
+\contentsline {section}{\numberline {4.17}TODO Arm Cortex}{120}{section.4.17}%
+\contentsline {chapter}{\numberline {5}Peripheral Driver Development (1)}{121}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{121}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Debugging Techniques}{122}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Debugging General Steps}{122}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Stepping Options}{124}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Assembly Code Debugging}{124}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Breakpoints}{125}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Expression Window}{126}{subsection.5.2.5}%
+\contentsline {subsection}{\numberline {5.2.6}Memory Window}{127}{subsection.5.2.6}%
+\contentsline {subsection}{\numberline {5.2.7}Call Stack}{127}{subsection.5.2.7}%
+\contentsline {subsection}{\numberline {5.2.8}Data Watchpoint}{129}{subsection.5.2.8}%
+\contentsline {subsection}{\numberline {5.2.9}SFR}{130}{subsection.5.2.9}%
+\contentsline {subsection}{\numberline {5.2.10}Extra Features}{130}{subsection.5.2.10}%
+\contentsline {section}{\numberline {5.3}MCU Memory Map}{132}{section.5.3}%
+\contentsline {section}{\numberline {5.4}MCU Bus Interface}{132}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Bus Matrix}{134}{subsection.5.4.1}%
+\contentsline {section}{\numberline {5.5}Clocks in MCU}{135}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}HSI Measurement Exercise}{136}{subsection.5.5.1}%
+\contentsline {section}{\numberline {5.6}Vector Table}{137}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Startup and Linker Script}{138}{subsection.5.6.1}%
+\contentsline {section}{\numberline {5.7}Programming: User Button Interrupt}{139}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Button Location in MCU}{139}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}GPIO Interrupts}{139}{subsection.5.7.2}%
+\contentsline {section}{\numberline {5.8}Summary: Driver Part 1}{140}{section.5.8}%

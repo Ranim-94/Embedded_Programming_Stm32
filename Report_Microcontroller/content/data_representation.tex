@@ -1,0 +1,107 @@
+
+
+\chapter{Data Representation}
+
+\section{Introduction}
+
+The goal of this chapter is review and explain some common programming concept used in embedded context, such as:
+
+	\begin{itemize}
+
+	\item Data representation: binary, hexadecimal,$\cdots$
+	
+	\begin{itemize}
+	\item Construct memory map table of hardware peripherals
+	\end{itemize}
+
+	\item Bitwise operation
+	
+		\begin{itemize}
+		\item To manipulate registers (set or clear some bits)
+		\end{itemize}			
+	
+	\end{itemize}
+
+\section{Source}
+
+\begin{itemize}
+
+\item chapter 1 and 2 from \cite{book_Embedded_systems_ARM_Cortex_M_YifengZhu},  
+
+\end{itemize}
+
+\newpage
+\section{Bit, Byte Word}
+
+\begin{itemize}
+
+\item Computers handle info in terms of \tbi{group of bits} $\rightarrow$ the idea of \tbi{byte} $\leftrightarrow$ a grouping of 8 bits
+
+\item There are also othre grouping in terms of \tbi{multiple of bytes} $\leftrightarrow$  \tbi{larger unit called word}
+
+	\begin{itemize}
+	\item The word size is machine dependent $\leftrightarrow$ on a x-86 archi word = 64 bits = 8 byetes, whereas arm-cortex M archi where word = 32 bits = 4 bytes
+	\end{itemize}
+
+\item Memory of computers and processor are \tbi{byte addressable} $\leftrightarrow$ every byte in the memory has its unique addresse
+
+	\begin{itemize}
+	\item Example in a micrcontroller: in stm32f407 discovery board, each peripheral registers has its unique addresse
+	\end{itemize}
+
+\end{itemize}
+
+\section{Data Types in C}
+
+\todo{Data types in C}
+
+\begin{itemize}
+
+\item \textit{Read section 2.1 from \cite{book_Embedded_systems_ARM_Cortex_M_YifengZhu}, and try with other books}
+
+\item \textit{To insert a table about the range of values}
+
+\item  \textit{Maybe see if there are some codes about limit value, min and max}
+
+\end{itemize}
+
+
+\section{Number System and Bases}
+
+see section 2.2 in \cite{book_Embedded_systems_ARM_Cortex_M_YifengZhu}
+
+\begin{itemize}
+
+\item Binary values are represtented in base 16 in modern computers
+
+\item Convert from base 2 $\rightarrow$ base 16: separate each 4 bits and take the equivalent hex digit, as shown in the conversion table
+
+\end{itemize}
+
+\todo{conversion table} \textit{Insert the conversion table later}
+
+\subsection{Base Representation in C code}
+
+\begin{itemize}
+
+\item There is what we call \tbi{suffixes} $\rightarrow$ force the compiler to treat a constant as an explicitly specified data type
+
+\item Used suffixes in embedded programming:
+
+	\begin{itemize}
+	\item \verb|0x| for base 16. 
+	
+	Example: \verb|uint p = 0xFFFF|
+	
+	
+	\item \verb|UL|:  \verb|U| for unisigned and \verb|L| for long int.
+	
+	Example: \verb|0xFFFFUL|
+	
+	\end{itemize}
+
+
+\end{itemize}
+
+
+%============ END Chapter ============
