@@ -168,27 +168,27 @@ typedef struct{
 
 /* see sec 7.3.10 in ref manual */
 
-#define GPIOA_CLK_ON()    	(RCC->AHB1ENR |= (1 << 0))
-#define GPIOB_CLK_ON()		(RCC->AHB1ENR |= (1 << 1))
-#define GPIOC_CLK_ON()		(RCC->AHB1ENR |= (1 << 2))
-#define GPIOD_CLK_ON()		(RCC->AHB1ENR |= (1 << 3))
-#define GPIOE_CLK_ON()		(RCC->AHB1ENR |= (1 << 4))
-#define GPIOF_CLK_ON()		(RCC->AHB1ENR |= (1 << 5))
-#define GPIOG_CLK_ON()		(RCC->AHB1ENR |= (1 << 6))
-#define GPIOH_CLK_ON()		(RCC->AHB1ENR |= (1 << 7))
-#define GPIOI_CLK_ON()		(RCC->AHB1ENR |= (1 << 8))
+#define GPIOA_CLK_ON    (RCC->AHB1ENR |= (1 << 0))
+#define GPIOB_CLK_ON		(RCC->AHB1ENR |= (1 << 1))
+#define GPIOC_CLK_ON		(RCC->AHB1ENR |= (1 << 2))
+#define GPIOD_CLK_ON  	(RCC->AHB1ENR |= (1 << 3))
+#define GPIOE_CLK_ON		(RCC->AHB1ENR |= (1 << 4))
+#define GPIOF_CLK_ON		(RCC->AHB1ENR |= (1 << 5))
+#define GPIOG_CLK_ON		(RCC->AHB1ENR |= (1 << 6))
+#define GPIOH_CLK_ON  	(RCC->AHB1ENR |= (1 << 7))
+#define GPIOI_CLK_ON		(RCC->AHB1ENR |= (1 << 8))
 
 /* Clock Disable Macros for GPIOx peripherals */
 
-#define GPIOA_CLK_OFF()    	(RCC->AHB1ENR &= ~(1 << 0))
-#define GPIOB_CLK_OFF()		(RCC->AHB1ENR &= ~(1 << 1))
-#define GPIOC_CLK_OFF()		(RCC->AHB1ENR &= ~(1 << 2))
-#define GPIOD_CLK_OFF()		(RCC->AHB1ENR &= ~(1 << 3))
-#define GPIOE_CLK_OFF()		(RCC->AHB1ENR &= ~(1 << 4))
-#define GPIOF_CLK_OFF()		(RCC->AHB1ENR &= ~(1 << 5))
-#define GPIOG_CLK_OFF()		(RCC->AHB1ENR &= ~(1 << 6))
-#define GPIOH_CLK_OFF()		(RCC->AHB1ENR &= ~(1 << 7))
-#define GPIOI_CLK_OFF()		(RCC->AHB1ENR &= ~(1 << 8))
+#define GPIOA_CLK_OFF   (RCC->AHB1ENR &= ~(1 << 0))
+#define GPIOB_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 1))
+#define GPIOC_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 2))
+#define GPIOD_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 3))
+#define GPIOE_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 4))
+#define GPIOF_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 5))
+#define GPIOG_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 6))
+#define GPIOH_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 7))
+#define GPIOI_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 8))
 
 
 // GENRIC MACROS used in different places
@@ -197,6 +197,23 @@ typedef struct{
 
 #define ON 1
 #define OFF 1
+
+
+// MACROS for Resetting GPIOx peripherals
+// using RCC_AHB1RSTR register
+// Details in section 7.3.5 from reference manual
+
+#define GPIOA_RESET   (RCC->AHB1RSTR |= (1 << 0))
+#define GPIOB_RESET   (RCC->AHB1RSTR |= (1 << 1))
+#define GPIOC_RESET   (RCC->AHB1RSTR |= (1 << 2))
+#define GPIOD_RESET   (RCC->AHB1RSTR |= (1 << 3)) 
+#define GPIOE_RESET   (RCC->AHB1RSTR |= (1 << 4))
+#define GPIOF_RESET   (RCC->AHB1RSTR |= (1 << 5))
+#define GPIOG_RESET   (RCC->AHB1RSTR |= (1 << 6))
+#define GPIOH_RESET   (RCC->AHB1RSTR |= (1 << 7))
+#define GPIOI_RESET   (RCC->AHB1RSTR |= (1 << 8))
+
+
 
 
 
