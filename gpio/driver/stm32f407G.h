@@ -203,15 +203,28 @@ typedef struct{
 // using RCC_AHB1RSTR register
 // Details in section 7.3.5 from reference manual
 
-#define GPIOA_RESET   (RCC->AHB1RSTR |= (1 << 0))
-#define GPIOB_RESET   (RCC->AHB1RSTR |= (1 << 1))
-#define GPIOC_RESET   (RCC->AHB1RSTR |= (1 << 2))
-#define GPIOD_RESET   (RCC->AHB1RSTR |= (1 << 3)) 
-#define GPIOE_RESET   (RCC->AHB1RSTR |= (1 << 4))
-#define GPIOF_RESET   (RCC->AHB1RSTR |= (1 << 5))
-#define GPIOG_RESET   (RCC->AHB1RSTR |= (1 << 6))
-#define GPIOH_RESET   (RCC->AHB1RSTR |= (1 << 7))
-#define GPIOI_RESET   (RCC->AHB1RSTR |= (1 << 8))
+#define GPIOA_RESET   do{(RCC->AHB1RSTR |= (1 << 0)); (RCC->AHB1RSTR &= ~(1 << 0));}while (0)
+#define GPIOB_RESET   do{(RCC->AHB1RSTR |= (1 << 1)); (RCC->AHB1RSTR &= ~(1 << 1));}while (0)
+#define GPIOC_RESET   do{(RCC->AHB1RSTR |= (1 << 2)); (RCC->AHB1RSTR &= ~(1 << 2));}while (0)
+#define GPIOD_RESET   do{(RCC->AHB1RSTR |= (1 << 3)); (RCC->AHB1RSTR &= ~(1 << 3));}while (0)
+#define GPIOE_RESET   do{(RCC->AHB1RSTR |= (1 << 4)); (RCC->AHB1RSTR &= ~(1 << 4));}while (0)
+#define GPIOF_RESET   do{(RCC->AHB1RSTR |= (1 << 5)); (RCC->AHB1RSTR &= ~(1 << 5));}while (0)
+#define GPIOG_RESET   do{(RCC->AHB1RSTR |= (1 << 6)); (RCC->AHB1RSTR &= ~(1 << 6));}while (0)
+#define GPIOH_RESET   do{(RCC->AHB1RSTR |= (1 << 7)); (RCC->AHB1RSTR &= ~(1 << 7));}while (0)
+#define GPIOI_RESET   do{(RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8));}while (0)
+
+/*
+ Here once we set the bit in the RCC_AHB1RSTR register
+ it will reset the GPIOx peripheral, but then we need to clear the bit
+ so we don't have 1 stuck in the register
+
+ That's we have a 2nd stamtment in the macros GPIOx_RESET
+ In C, we can use the do-while loop to execute to have multiple statements
+ in a single macro, so we can have the reset and then clear the bit
+ in the same macro
+
+*/
+
 
 
 

@@ -1,131 +1,50 @@
-
-
-
 #include "gpio_driver.h"
 
 
+GPIO_ClkMap gpio_clk_map[] = {
+    {GPIOA, GPIOA_CLK_ON, GPIOA_CLK_OFF},
+    {GPIOB, GPIOB_CLK_ON, GPIOB_CLK_OFF},
+    {GPIOC, GPIOC_CLK_ON, GPIOC_CLK_OFF},
+    {GPIOD, GPIOD_CLK_ON, GPIOD_CLK_OFF},
+    {GPIOE, GPIOE_CLK_ON, GPIOE_CLK_OFF},
+    {GPIOF, GPIOF_CLK_ON, GPIOF_CLK_OFF},
+    {GPIOG, GPIOG_CLK_ON, GPIOG_CLK_OFF},
+    {GPIOH, GPIOH_CLK_ON, GPIOH_CLK_OFF},
+    {GPIOI, GPIOI_CLK_ON, GPIOI_CLK_OFF}
+};
 
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx,
+// Define the reset table for GPIO peripherals
+// This table will be used to reset GPIOx peripherals
+// using the RCC_AHB1RSTR register using the 
+// function GPIO_DeInit()
+
+GPIO_Reset gpio_reset_table[] = {
+
+	{GPIOA, GPIOA_RESET},	
+	{GPIOB, GPIOB_RESET},
+	{GPIOC, GPIOC_RESET},
+	{GPIOD, GPIOD_RESET},
+	{GPIOE, GPIOE_RESET},
+	{GPIOF, GPIOF_RESET},
+	{GPIOG, GPIOG_RESET},
+	{GPIOH, GPIOH_RESET},
+	{GPIOI, GPIOI_RESET}
+};
+
+void GPIO_PeriClockControl(GPIO_ClkMap* gpio_clk_map,
+						   GPIO_RegDef_t *pGPIOx,		
 						  uint8_t ON_OFF){
 
+	   for (int i = 0; i < NB_GPIO_PORTS; ++i) {
 
-	if(ON_OFF == ON){
-
-		switch (pGPIOx){
-
-		case GPIOA:
-
-			GPIOA_CLK_ON();
-			break;
-
-		case GPIOB:
-
-			GPIOB_CLK_ON();
-			break;
-
-		case GPIOC:
-
-			GPIOC_CLK_ON();
-			break;
-
-		case GPIOD:
-
-			GPIOD_CLK_ON();
-			break;
-
-		case GPIOE:
-
-			GPIOE_CLK_ON();
-			break;
-
-		case GPIOF:
-
-			GPIOF_CLK_EN();
-			break;
-
-		case GPIOG:
-
-			GPIOG_CLK_EN();
-			break;
-
-		case GPIOH:
-
-			GPIOH_CLK_EN();
-			break;
-
-		case GPIOI:
-
-			GPIOI_CLK_EN();
-			break;
-
-
-		 }/* End switch (pGPIOx)*/
-
-
-
-	}else{
-
-	/* Clock off block
-	 *
-	 * Here we chose to turn off a clock for a certain GPIO
-	 *
-	 * */
-
-		switch (pGPIOx){
-
-				case GPIOA:
-
-					GPIOA_CLK_OFF();
-					break;
-
-				case GPIOB:
-
-					GPIOB_CLK_OFF();
-					break;
-
-				case GPIOC:
-
-					GPIOC_CLK_OFF();
-					break;
-
-				case GPIOD:
-
-					GPIOD_CLK_OFF();
-					break;
-
-				case GPIOE:
-
-					GPIOE_CLK_OFF();
-					break;
-
-				case GPIOF:
-
-					GPIOF_CLK_OFF();
-					break;
-
-				case GPIOG:
-
-					GPIOG_CLK_OFF();
-					break;
-
-				case GPIOH:
-
-					GPIOH_CLK_OFF();
-					break;
-
-				case GPIOI:
-
-					GPIOI_CLK_OFF();
-					break;
-
-
-				 }/* End switch (pGPIOx)*/
-
-
-
-	} /* End if-else */
-
-
+        if (gpio_clk_map[i].base == pGPIOx) {
+            if (ON_OFF == ON)
+                gpio_clk_map[i].clk_on();
+            else
+                gpio_clk_map[i].clk_off();
+            break;
+        }
+    } /* End for loop for all ports */
 
 
 } /* End GPIO_PeriClockControl() */
@@ -142,6 +61,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 	 * In General, before setting any register, 
 	 * we need to make sure that the bits are cleared, because we don't
 	 * know what was the previous configuration was
+
 	 * That's why we clear the bits first in the code, then we set them
 	 *
 	 * */
@@ -231,11 +151,29 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 	} /* End if(pin Mode< ANALOG) */
 
 
-
-
-
-
-
 }/* End GPIO_Init()   */
 
 
+void GPIO_DeInit(GPIO_Reset *gpio_reset_table,
+	GPIO_RegDef_t *pGPIOx){
+
+/* This function resets the GPIO registers 
+	To reset a GPIOx port, we need to set the corresponding 
+	bit in the RCC register
+
+	For GPIOx,the correspondent RCC register is RCC_AHB1RSTR
+	see section 7.3.5 from reference manual
+
+*/
+		for(int i = 0; i < NB_GPIO_PORTS; ++i) {
+		
+		if (gpio_reset_table[i].base == pGPIOx) {
+			
+			gpio_reset_table[i].reset_gpiox();
+			
+			break;
+		}
+
+	} /* End for loop for all ports */
+
+} /* End GPIO_DeInit() */

@@ -30,6 +30,26 @@ typedef struct{
 } GPIO_Handle_t;
 
 
+typedef struct {
+    GPIO_RegDef_t *base;
+    void (*clk_on)(void);
+    void (*clk_off)(void);
+} GPIO_ClkMap;
+
+typedef struct gpio_driver{
+    GPIO_RegDef_t *base;
+    void (*reset_gpiox)(void);
+
+} GPIO_Reset;
+
+
+// Declare the array and port count as extern
+extern GPIO_ClkMap gpio_clk_map[];
+extern GPIO_Reset gpio_reset_table[];
+
+#define NB_GPIO_PORTS (sizeof(gpio_clk_map)/sizeof(gpio_clk_map[0]))
+
+
 // =============== Coding states for GPIO Registers ===============
 
 // see section 8.4 from refrence manual
@@ -85,11 +105,14 @@ typedef enum {
 // ================== Now API Part (function part) ==================
 
 
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx,
-						  uint8_t EnorDi);
+void GPIO_PeriClockControl(GPIO_ClkMap* gpio_clk_map,
+						  GPIO_RegDef_t *pGPIOx,	
+						  uint8_t ON_OFF);
 
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle);
-void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
+
+void GPIO_DeInit(GPIO_Reset *gpio_reset_table,
+                 GPIO_RegDef_t *pGPIOx);
 
 // Read and Write functions
 
