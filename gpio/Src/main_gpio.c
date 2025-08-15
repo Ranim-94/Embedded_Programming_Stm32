@@ -6,6 +6,8 @@
 
 #define CYCLE 5e5
 
+#define RUN_SOFT 0
+
 void delay(){
 
 	for(int i=0; i<CYCLE; i++){
@@ -17,6 +19,9 @@ void delay(){
 int main(void){
 
 // Goal: toggling a LED in push pull mode as output
+
+
+#if (RUN_SOFT==1)
 
 // Instantiate some structure
 GPIO_Handle_t gpio_handle;
@@ -51,9 +56,12 @@ GPIO_Init(&gpio_handle); // Set up GPIO Registers
 
 	} /* End while()*/
 
+#endif
 
+#if (RUN_SOFT == 0)
 // Resetting GPIO Port D
-//GPIO_DeInit(GPIOD);
+GPIO_DeInit(GPIOD);
+#endif
 
 
 
