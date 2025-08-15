@@ -5,29 +5,23 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/main_gpio.c \
-../Src/syscalls.c \
-../Src/sysmem.c 
+../driver/gpio_driver.c 
 
 OBJS += \
-./Src/main_gpio.o \
-./Src/syscalls.o \
-./Src/sysmem.o 
+./driver/gpio_driver.o 
 
 C_DEPS += \
-./Src/main_gpio.d \
-./Src/syscalls.d \
-./Src/sysmem.d 
+./driver/gpio_driver.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
+driver/%.o driver/%.su driver/%.cyclo: ../driver/%.c driver/subdir.mk
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"/home/lenovo/Simulation_Linux/stm32_dev/gpio/driver" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 
-clean: clean-Src
+clean: clean-driver
 
-clean-Src:
-	-$(RM) ./Src/main_gpio.cyclo ./Src/main_gpio.d ./Src/main_gpio.o ./Src/main_gpio.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+clean-driver:
+	-$(RM) ./driver/gpio_driver.cyclo ./driver/gpio_driver.d ./driver/gpio_driver.o ./driver/gpio_driver.su
 
-.PHONY: clean-Src
+.PHONY: clean-driver
 

@@ -1,4 +1,137 @@
+
 #include "gpio_driver.h"
+
+// GPIO Clock control functions
+void GPIOA_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 0); 
+}
+
+void GPIOA_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 0); 
+}
+
+void GPIOB_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 1); 
+}
+
+void GPIOB_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 1); 
+}
+
+void GPIOC_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 2); 
+}
+
+void GPIOC_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 2); 
+}
+
+void GPIOD_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 3); 
+}
+
+void GPIOD_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 3); 
+}
+
+void GPIOE_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 4); 
+}
+
+void GPIOE_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 4); 
+}
+
+void GPIOF_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 5); 
+}
+
+void GPIOF_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 5); 
+}
+
+void GPIOG_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 6); 
+}
+
+void GPIOG_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 6); 
+}
+
+void GPIOH_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 7); 
+}
+
+void GPIOH_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 7); 
+}
+
+void GPIOI_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 8); 
+}
+
+void GPIOI_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 8); 
+}
+
+// GPIO Reset functions
+void GPIOA_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 0);
+    RCC->AHB1RSTR &= ~(1 << 0);
+}
+
+/*
+ Here once we set the bit in the RCC_AHB1RSTR register
+ it will reset the GPIOx peripheral, but then we need to clear the bit
+ so we don't have 1 stuck in the register
+
+ That's we have a 2nd statement in the macros GPIOx_RESET
+ In C, we can use the do-while loop to execute to have multiple statements
+ in a single macro, so we can have the reset and then clear the bit
+ in the same macro
+
+*/
+
+
+void GPIOB_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 1);
+    RCC->AHB1RSTR &= ~(1 << 1);
+}
+
+void GPIOC_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 2);
+    RCC->AHB1RSTR &= ~(1 << 2);
+}
+
+void GPIOD_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 3);
+    RCC->AHB1RSTR &= ~(1 << 3);
+}
+
+void GPIOE_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 4);
+    RCC->AHB1RSTR &= ~(1 << 4);
+}
+
+void GPIOF_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 5);
+    RCC->AHB1RSTR &= ~(1 << 5);
+}
+
+void GPIOG_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 6);
+    RCC->AHB1RSTR &= ~(1 << 6);
+}
+
+void GPIOH_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 7);
+    RCC->AHB1RSTR &= ~(1 << 7);
+}
+
+void GPIOI_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 8);
+    RCC->AHB1RSTR &= ~(1 << 8);
+}
 
 
 GPIO_ClkMap gpio_clk_map[] = {
@@ -18,7 +151,7 @@ GPIO_ClkMap gpio_clk_map[] = {
 // using the RCC_AHB1RSTR register using the 
 // function GPIO_DeInit()
 
-GPIO_Reset gpio_reset_table[] = {
+GPIO_Reset gpio_reset_table[] =  {
 
 	{GPIOA, GPIOA_RESET},	
 	{GPIOB, GPIOB_RESET},
@@ -31,8 +164,7 @@ GPIO_Reset gpio_reset_table[] = {
 	{GPIOI, GPIOI_RESET}
 };
 
-void GPIO_PeriClockControl(GPIO_ClkMap* gpio_clk_map,
-						   GPIO_RegDef_t *pGPIOx,		
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx,		
 						  uint8_t ON_OFF){
 
 	   for (int i = 0; i < NB_GPIO_PORTS; ++i) {
@@ -154,8 +286,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 }/* End GPIO_Init()   */
 
 
-void GPIO_DeInit(GPIO_Reset *gpio_reset_table,
-	GPIO_RegDef_t *pGPIOx){
+void GPIO_DeInit(GPIO_RegDef_t *pGPIOx){
 
 /* This function resets the GPIO registers 
 	To reset a GPIOx port, we need to set the corresponding 
@@ -177,3 +308,109 @@ void GPIO_DeInit(GPIO_Reset *gpio_reset_table,
 	} /* End for loop for all ports */
 
 } /* End GPIO_DeInit() */
+
+
+uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx,
+							  uint8_t PinNumber){
+
+
+uint8_t value;
+
+value = (uint8_t)((pGPIOx->IDR >> PinNumber) & 0x1) ;
+
+/*
+Reading a data from a pin is done by reading the IDR register
+The IDR register is a 32-bit register, so we need to shift the pin number
+to the right by the pin number, and then we mask the result with 0x1
+to get the value of the pin (0 or 1)
+
+Since we shift the IDR register by the pin number to the right,
+the value of the pin will be in the least significant bit (LSB) 
+That's why we mask the result with 0x1, meaning we only care about the LSB
+and the mask value is 0x1 (which is 0000...0001 in binary)
+
+Don't forget to cast the result to uint8_t
+
+
+*/
+return value;
+
+
+
+} /* End GPIO_ReadFromInputPin() */
+
+
+uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx){
+
+/*
+	In this function we read the whole input port
+	So we read the entire IDR register
+
+*/
+
+return (uint16_t)(pGPIOx->IDR);
+
+
+} /* End GPIO_ReadFromInputPort() */
+
+void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx,
+						uint8_t PinNumber, uint8_t Value){
+
+/*
+This function writes a value to a pin
+The value can be 0 or 1
+
+For this, we need to write to the ODR register
+
+*/
+
+if (Value == ON){
+	// Write 1 to the pin
+	pGPIOx->ODR |= (1 << PinNumber);
+
+} else {
+	
+	// Write 0 to the pin
+	pGPIOx->ODR &= ~(1 << PinNumber);
+
+	} /* End if-else */
+
+} /* End GPIO_WriteToOutputPin() */
+
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,
+							uint16_t Value){
+
+/*
+This function writes a value to the whole output port
+We write to the ODR register
+*/
+
+pGPIOx->ODR = Value; // Write value to the entire ODR register
+
+} /* End GPIO_WriteToOutputPort() */
+
+void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, 
+                         uint8_t PinNumber){
+
+
+	pGPIOx->ODR ^= (1 << PinNumber);
+
+/*
+
+This function toggles the output pin
+We use the XOR operator to toggle the pin
+If the pin is 0, it will become 1, and if it is 1, it will become 0
+
+We use the ODR register to toggle the pin
+We shift 1 to the left by PinNumber to get the bit corresponding to the pin number
+
+Then we XOR the ODR register with this value */
+
+
+} /* End GPIO_ToggleOutputPin() */
+
+
+
+
+						
+

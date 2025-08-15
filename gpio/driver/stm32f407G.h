@@ -41,11 +41,11 @@
  * for that we can see the memory map (see table 1 in chapter 2 also)
  * */
 
-#define PERIPH_BASEADDR 		0x40000000U
-#define APB1PERIPH_BASEADDR 	PERIPH_BASEADDR
-#define APB2PERIPH_BASEADDR		0x40010000U
-#define AHB1PERIPH_BASEADDR		0x40020000U
-#define AHB2PERIPH_BASEADDR		0x50000000U
+#define PERIPH_BASEADDR 		(0x40000000U)
+#define APB1PERIPH_BASEADDR 	(PERIPH_BASEADDR)
+#define APB2PERIPH_BASEADDR		(0x40010000U)
+#define AHB1PERIPH_BASEADDR		(0x40020000U)
+#define AHB2PERIPH_BASEADDR		(0x50000000U)
 
 // ======== GPIO ========
 
@@ -60,16 +60,16 @@
  *
  * */
 
-#define GPIOA_BASEADDR	(AHB1PERIPH_BASEADDR + 0x0000)
-#define GPIOB_BASEADDR  (AHB1PERIPH_BASEADDR + 0x0400)
-#define GPIOC_BASEADDR 	(AHB1PERIPH_BASEADDR + 0x0800)
-#define GPIOD_BASEADDR 	(AHB1PERIPH_BASEADDR + 0x0C00)
-#define GPIOE_BASEADDR 	(AHB1PERIPH_BASEADDR + 0x1000)
-#define GPIOF_BASEADDR 	(AHB1PERIPH_BASEADDR + 0x1400)
-#define GPIOG_BASEADDR 	(AHB1PERIPH_BASEADDR + 0x1800)
-#define GPIOH_BASEADDR 	(AHB1PERIPH_BASEADDR + 0x1C00)
-#define GPIOI_BASEADDR 	(AHB1PERIPH_BASEADDR + 0x2000)
-#define RCC_BASEADDR    (AHB1PERIPH_BASEADDR + 0x3800)
+#define GPIOA_BASEADDR (AHB1PERIPH_BASEADDR + 0x0000)
+#define GPIOB_BASEADDR (AHB1PERIPH_BASEADDR + 0x0400)
+#define GPIOC_BASEADDR (AHB1PERIPH_BASEADDR + 0x0800)
+#define GPIOD_BASEADDR (AHB1PERIPH_BASEADDR + 0x0C00)
+#define GPIOE_BASEADDR (AHB1PERIPH_BASEADDR + 0x1000)
+#define GPIOF_BASEADDR (AHB1PERIPH_BASEADDR + 0x1400)
+#define GPIOG_BASEADDR (AHB1PERIPH_BASEADDR + 0x1800)
+#define GPIOH_BASEADDR (AHB1PERIPH_BASEADDR + 0x1C00)
+#define GPIOI_BASEADDR (AHB1PERIPH_BASEADDR + 0x2000)
+#define RCC_BASEADDR (AHB1PERIPH_BASEADDR + 0x3800)
 
 /* Instantiate */
 
@@ -107,15 +107,15 @@ typedef struct{
  *
  * */
 
-#define GPIOA  	((GPIO_RegDef_t*)GPIOA_BASEADDR)
-#define GPIOB  	((GPIO_RegDef_t*)GPIOB_BASEADDR)
-#define GPIOC  	((GPIO_RegDef_t*)GPIOC_BASEADDR)
-#define GPIOD  	((GPIO_RegDef_t*)GPIOD_BASEADDR)
-#define GPIOE  	((GPIO_RegDef_t*)GPIOE_BASEADDR)
-#define GPIOF  	((GPIO_RegDef_t*)GPIOF_BASEADDR)
-#define GPIOG  	((GPIO_RegDef_t*)GPIOG_BASEADDR)
-#define GPIOH  	((GPIO_RegDef_t*)GPIOH_BASEADDR)
-#define GPIOI  	((GPIO_RegDef_t*)GPIOI_BASEADDR)
+#define GPIOA ((GPIO_RegDef_t*)GPIOA_BASEADDR)
+#define GPIOB ((GPIO_RegDef_t*)GPIOB_BASEADDR)
+#define GPIOC ((GPIO_RegDef_t*)GPIOC_BASEADDR)
+#define GPIOD ((GPIO_RegDef_t*)GPIOD_BASEADDR)
+#define GPIOE ((GPIO_RegDef_t*)GPIOE_BASEADDR)
+#define GPIOF ((GPIO_RegDef_t*)GPIOF_BASEADDR)
+#define GPIOG ((GPIO_RegDef_t*)GPIOG_BASEADDR)
+#define GPIOH ((GPIO_RegDef_t*)GPIOH_BASEADDR)
+#define GPIOI ((GPIO_RegDef_t*)GPIOI_BASEADDR)
 
 // ============= Clock configuration using RCC =============
 
@@ -161,69 +161,18 @@ typedef struct{
 
 } RCC_RegDef_t;
 
-/* Instantiate RCC struct a RCC specific address */
-#define RCC	((RCC_RegDef_t*)RCC_BASEADDR)
-
-/* Clock Enable Macros for GPIOx peripherals */
-
-/* see sec 7.3.10 in ref manual */
-
-#define GPIOA_CLK_ON    (RCC->AHB1ENR |= (1 << 0))
-#define GPIOB_CLK_ON		(RCC->AHB1ENR |= (1 << 1))
-#define GPIOC_CLK_ON		(RCC->AHB1ENR |= (1 << 2))
-#define GPIOD_CLK_ON  	(RCC->AHB1ENR |= (1 << 3))
-#define GPIOE_CLK_ON		(RCC->AHB1ENR |= (1 << 4))
-#define GPIOF_CLK_ON		(RCC->AHB1ENR |= (1 << 5))
-#define GPIOG_CLK_ON		(RCC->AHB1ENR |= (1 << 6))
-#define GPIOH_CLK_ON  	(RCC->AHB1ENR |= (1 << 7))
-#define GPIOI_CLK_ON		(RCC->AHB1ENR |= (1 << 8))
-
-/* Clock Disable Macros for GPIOx peripherals */
-
-#define GPIOA_CLK_OFF   (RCC->AHB1ENR &= ~(1 << 0))
-#define GPIOB_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 1))
-#define GPIOC_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 2))
-#define GPIOD_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 3))
-#define GPIOE_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 4))
-#define GPIOF_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 5))
-#define GPIOG_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 6))
-#define GPIOH_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 7))
-#define GPIOI_CLK_OFF		(RCC->AHB1ENR &= ~(1 << 8))
+/* Instantiate RCC struct at RCC specific address */
+#define RCC ((RCC_RegDef_t*)RCC_BASEADDR)
 
 
 // GENRIC MACROS used in different places
 // such as comparison, ...
 
-
 #define ON 1
-#define OFF 1
+#define OFF 0
 
 
-// MACROS for Resetting GPIOx peripherals
-// using RCC_AHB1RSTR register
-// Details in section 7.3.5 from reference manual
 
-#define GPIOA_RESET   do{(RCC->AHB1RSTR |= (1 << 0)); (RCC->AHB1RSTR &= ~(1 << 0));}while (0)
-#define GPIOB_RESET   do{(RCC->AHB1RSTR |= (1 << 1)); (RCC->AHB1RSTR &= ~(1 << 1));}while (0)
-#define GPIOC_RESET   do{(RCC->AHB1RSTR |= (1 << 2)); (RCC->AHB1RSTR &= ~(1 << 2));}while (0)
-#define GPIOD_RESET   do{(RCC->AHB1RSTR |= (1 << 3)); (RCC->AHB1RSTR &= ~(1 << 3));}while (0)
-#define GPIOE_RESET   do{(RCC->AHB1RSTR |= (1 << 4)); (RCC->AHB1RSTR &= ~(1 << 4));}while (0)
-#define GPIOF_RESET   do{(RCC->AHB1RSTR |= (1 << 5)); (RCC->AHB1RSTR &= ~(1 << 5));}while (0)
-#define GPIOG_RESET   do{(RCC->AHB1RSTR |= (1 << 6)); (RCC->AHB1RSTR &= ~(1 << 6));}while (0)
-#define GPIOH_RESET   do{(RCC->AHB1RSTR |= (1 << 7)); (RCC->AHB1RSTR &= ~(1 << 7));}while (0)
-#define GPIOI_RESET   do{(RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8));}while (0)
-
-/*
- Here once we set the bit in the RCC_AHB1RSTR register
- it will reset the GPIOx peripheral, but then we need to clear the bit
- so we don't have 1 stuck in the register
-
- That's we have a 2nd stamtment in the macros GPIOx_RESET
- In C, we can use the do-while loop to execute to have multiple statements
- in a single macro, so we can have the reset and then clear the bit
- in the same macro
-
-*/
 
 
 
