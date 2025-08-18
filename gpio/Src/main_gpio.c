@@ -6,7 +6,7 @@
 
 #define CYCLE 5e5
 
-#define RUN_SOFT 0
+#define RUN_SOFT 1
 
 void delay(){
 
@@ -18,40 +18,55 @@ void delay(){
 
 int main(void){
 
-// Goal: toggling a LED in push pull mode as output
+// Goal: toggling a LED when pressing user button
 
 
 #if (RUN_SOFT==1)
 
-// Instantiate some structure
-GPIO_Handle_t gpio_handle;
+// Instantiate structures for button and LED
+GPIO_Handle_t gpio_button, gpio_led;
 
-// Initialize members for GPIO Port D registers
-gpio_handle.gpio_reg_x = GPIOD; // Use GPIOD 
+// Configure PA0 as input (USER BUTTON)
+gpio_button.gpio_reg_x = GPIOA;
+gpio_button.gpio_pin_conf.GPIO_PinNumber = GPIO_PIN_0;
+gpio_button.gpio_pin_conf.GPIO_PinMode = IN;
+gpio_button.gpio_pin_conf.GPIO_PinSpeed = LOW;
+gpio_button.gpio_pin_conf.GPIO_PinPuPdControl = NO_PULLUP; // External pull-down on Discovery board
 
-gpio_handle.gpio_pin_conf.GPIO_PinNumber = GPIO_PIN_12;
+// Configure PA1 as output (LED) - or use PD12 for Discovery board LED
+gpio_led.gpio_reg_x = GPIOD; // Change to GPIOD for Discovery board
+gpio_led.gpio_pin_conf.GPIO_PinNumber = GPIO_PIN_12; // PD12 is the green LED on Discovery
+gpio_led.gpio_pin_conf.GPIO_PinMode = OUT;
+gpio_led.gpio_pin_conf.GPIO_PinSpeed = HIGH;
+gpio_led.gpio_pin_conf.GPIO_PinOPType = PUSH_PULL;
+gpio_led.gpio_pin_conf.GPIO_PinPuPdControl = NO_PULLUP;
 
-gpio_handle.gpio_pin_conf.GPIO_PinMode = OUT; // Set as output  
-gpio_handle.gpio_pin_conf.GPIO_PinSpeed = LOW; // Set low speed
-gpio_handle.gpio_pin_conf.GPIO_PinOPType = PUSH_PULL; // Push-pull
+// Enable clocks for both GPIO ports
+GPIO_PeriClockControl(GPIOA, ON); // For button
+GPIO_PeriClockControl(GPIOD, ON); // For LED
 
-// since push pull is used, no need for pull-up resistor
-// see report for more info
-gpio_handle.gpio_pin_conf.GPIO_PinPuPdControl = NO_PULLUP; // No pull-up
+// Initialize both GPIO configurations
+GPIO_Init(&gpio_button);
+GPIO_Init(&gpio_led);
 
-// TODO: I will keep this field now uninitialized
-// gpio_handle.gpio_pin_conf.GPIO_PinAltFunMode = 0; // No alternate function
-
-// Turning the clock on GPIO Port D
-GPIO_PeriClockControl(GPIOD, ON);
-
-GPIO_Init(&gpio_handle); // Set up GPIO Registers
-
+	uint8_t last_button_state = 0;
+	
 	while(1){
 
-		GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12);
+		uint8_t current_button_state = GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0);
+		
+		// Detect button press (rising edge) - button is normally low, high when pressed
+		if(current_button_state == 1 && last_button_state == 0){
+			delay(); // Simple debouncing
+			// Re-read after delay to confirm button is still pressed
+			if(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0) == 1){
+				GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12); // Toggle LED
+			}
+		}
+		
+		last_button_state = current_button_state;
 
-		delay(); // wait for certain time
+		
 
 
 	} /* End while()*/
