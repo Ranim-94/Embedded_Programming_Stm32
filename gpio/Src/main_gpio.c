@@ -33,9 +33,11 @@ gpio_button.gpio_pin_conf.GPIO_PinMode = IN;
 gpio_button.gpio_pin_conf.GPIO_PinSpeed = LOW;
 gpio_button.gpio_pin_conf.GPIO_PinPuPdControl = NO_PULLUP; // External pull-down on Discovery board
 
-// Configure PA1 as output (LED) - or use PD12 for Discovery board LED
+// Configure PD12 as output (LED) - or use PD12 for Discovery board LED
 gpio_led.gpio_reg_x = GPIOD; // Change to GPIOD for Discovery board
-gpio_led.gpio_pin_conf.GPIO_PinNumber = GPIO_PIN_12; // PD12 is the green LED on Discovery
+
+// PD12 is the green LED on Discovery
+gpio_led.gpio_pin_conf.GPIO_PinNumber = GPIO_PIN_12; 
 gpio_led.gpio_pin_conf.GPIO_PinMode = OUT;
 gpio_led.gpio_pin_conf.GPIO_PinSpeed = HIGH;
 gpio_led.gpio_pin_conf.GPIO_PinOPType = PUSH_PULL;
