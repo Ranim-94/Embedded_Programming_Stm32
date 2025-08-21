@@ -1,0 +1,9 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=linux
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:1_b_LED_ON_f411,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:2_b_gpio_toggl_BSRR,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:2_c_gpio_led_pushbutton,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:2_gpio,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:3_a_interrupt_conf_example,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:gpio
+eclipse.preferences.version=1
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:1_b_LED_ON_f411/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:1_b_LED_ON_f411/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:2_b_gpio_toggl_BSRR/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:2_b_gpio_toggl_BSRR/activeLaunchTarget=null\:---

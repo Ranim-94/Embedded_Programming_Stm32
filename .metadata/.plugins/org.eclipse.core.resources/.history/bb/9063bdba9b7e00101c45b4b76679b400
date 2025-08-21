@@ -1,0 +1,103 @@
+
+
+
+#include "stm32f407G.h"
+#include "gpio_driver.h"
+
+#define CYCLE (1e2/4)
+
+#define RUN_SOFT 1
+
+void delay(){
+
+	for(int i=0; i<CYCLE; i++){
+
+	}
+
+} /* End delay*()*/
+
+int main(void){
+
+// Goal: toggling a LED when pressing user button
+
+
+#if (RUN_SOFT==1)
+
+// Instantiate structures for button and LED
+GPIO_Handle_t gpio_button, gpio_led;
+
+// Configure PA0 as input (USER BUTTON)
+gpio_button.gpio_reg_x = GPIOA;
+gpio_button.gpio_pin_conf.GPIO_PinNumber = GPIO_PIN_0;
+gpio_button.gpio_pin_conf.GPIO_PinMode = IN;
+gpio_button.gpio_pin_conf.GPIO_PinSpeed = LOW;
+gpio_button.gpio_pin_conf.GPIO_PinPuPdControl = NO_PULLUP; // External pull-down on Discovery board
+
+// Configure PD12 as output (LED) - or use PD12 for Discovery board LED
+gpio_led.gpio_reg_x = GPIOD; // Change to GPIOD for Discovery board
+
+// PD12 is the green LED on Discovery
+gpio_led.gpio_pin_conf.GPIO_PinNumber = GPIO_PIN_12; 
+gpio_led.gpio_pin_conf.GPIO_PinMode = OUT;
+gpio_led.gpio_pin_conf.GPIO_PinSpeed = HIGH;
+gpio_led.gpio_pin_conf.GPIO_PinOPType = PUSH_PULL;
+gpio_led.gpio_pin_conf.GPIO_PinPuPdControl = NO_PULLUP;
+
+// Enable clocks for both GPIO ports
+GPIO_PeriClockControl(GPIOA, ON); // For button
+GPIO_PeriClockControl(GPIOD, ON); // For LED
+
+// Initialize both GPIO configurations
+GPIO_Init(&gpio_button);
+GPIO_Init(&gpio_led);
+
+	uint8_t last_button_state = 0;
+	
+	while(1){
+
+		uint8_t current_button_state = GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0);
+		
+		// Detect button press (rising edge) - button is normally low, high when pressed
+		if(current_button_state == 1 && last_button_state == 0){
+			
+			delay(); // Simple debouncing
+			
+			// Re-read after delay to confirm button is still pressed
+			if(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0) == 1){
+
+				// Toggle LED
+				GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12); 
+			}
+		}
+		
+		last_button_state = current_button_state;
+
+		
+
+
+	} /* End while()*/
+
+#endif
+
+#if (RUN_SOFT == 0)
+// Resetting GPIO Port D
+GPIO_DeInit(GPIOD);
+#endif
+
+
+
+}/* End main()*/
+
+/*
+
+ Some notes measurement regarding delays,
+ captured by logic analyzer and sigrok software
+
+ Download pulseview for linux in https://sigrok.org/wiki/Downloads
+
+
+	for 5e5 -> delay = 433 ms
+	
+
+
+*/
