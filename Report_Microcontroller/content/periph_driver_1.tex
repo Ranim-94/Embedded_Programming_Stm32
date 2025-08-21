@@ -1,4 +1,5 @@
-\chapter{Peripheral Driver Development (1)}
+
+\chapter{GPIO Programming}
 \label{Chap:peripheral_driver_1}
 
 \section{Introduction}
@@ -706,6 +707,26 @@ In \autoref{fig:driver_part_1:exti_gpio_mapping}, we have the mapping for each G
 \newpage
 \section{Summary: Driver Part 1}
 
+\subsection{Board Info}
+
+\begin{itemize}
+
+\item User Button (type push button): \verb	|PA0|	
+
+\item Logic of the button (mainly on stm32f407V, for other board we need to see the circuitry)
+
+	\begin{itemize}
+	
+	\item Refer to \autoref{fig:driver_part_1:user_button}
+	
+	\item When we press the button, \verb|PA0| is pulled to high
+	
+	\item When releasing, \verb|PA0| is pulled to ground
+	\end{itemize}	 
+	
+
+\end{itemize}
+
 \begin{itemize}
 
 
@@ -730,3 +751,14 @@ In \autoref{fig:driver_part_1:exti_gpio_mapping}, we have the mapping for each G
 \item Interrupt resources: see 
 
 \end{itemize}
+
+\section{TODO}
+
+Some of the videos I didn't do it ,to do them later (in periph dirver 1 course)
+
+\begin{itemize}
+
+\item Section 27: 105,106 (mainly about external LED and push button that we need to connect)
+
+\end{itemize}
+
