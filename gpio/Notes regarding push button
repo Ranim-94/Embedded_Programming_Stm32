@@ -1,0 +1,183 @@
+
+
+uint8_t current_button_state = 
+GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0);
+		
+
+if(current_button_state == 1){
+    // This triggers EVERY loop cycle while button is held down
+    GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12); 
+}
+
+The above code means that as long as the button is pressed 
+(i.e., `current_button_state` is 1), 
+the LED connected to PD12 will toggle its state 
+on every loop iteration. 
+This can lead to rapid toggling of the LED, which may not be the desired behavior.
+
+
+Button State:     ____▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀____
+                      ↑                    ↑
+                   Press down          Release finger
+
+Loop cycles:      1  2  3  4  5  6  7  8  9  10...
+LED toggles:      ✓  ✓  ✓  ✓  ✓  ✓  ✓  ✓  ✓  ✓ ...
+
+LED state:        ON OFF ON OFF ON OFF ON OFF...
+
+
+when using edge detection
+if(current_button_state == 1 && last_button_state == 0){
+    GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12); 
+}
+
+Button State:     ____▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀____
+                      ↑                    
+                   Press down (edge detected ONCE)
+
+Loop cycles:      1  2  3  4  5  6  7  8  9  10...
+LED toggles:      ✓  -  -  -  -  -  -  -  -  - ...
+
+LED state:        ON (stays ON until next button press)
+
+
+Edge Detection Concepts:
+1. Rising Edge:
+Transition from LOW (0) to HIGH (1)
+Condition: current == 1 && last == 0
+2. Falling Edge:
+Transition from HIGH (1) to LOW (0)
+Condition: current == 0 && last == 1
+3. Any Edge:
+Any change in state
+Condition: current != last
+
+=========== Tracking for LED Edge detection ===========
+
+if(current_button_state == 1 && last_button_state == 0){
+    GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12); // Toggles only once per press
+}
+last_button_state = current_button_state;
+
+Table: 
+
+Loop	Button State	    last_button_state	Action
+1	    0 (released)	    0	                No action
+2	    1 (pressed)	        0                   Toggle LED (rising edge!)
+3	    1 (still pressed)	1	                No action
+4	    1 (still pressed)	1	                No action
+5	    0 (released)	    1	                No action (falling edge)
+6	    0 (released)	    0	                No action
+
+============================ Rearead function ============================
+
+
+1. Button Debouncing
+Physical buttons have mechanical contacts that can "bounce" when pressed, 
+creating multiple rapid transitions between HIGH and LOW states. 
+The delay + re-read pattern helps filter out these false triggers.
+
+2. Noise Filtering
+Without the re-read, you might toggle the LED on:
+    Electrical noise spikes
+    Very brief button touches
+    Mechanical switch bounce
+
+3. What Could Happen Without Re-read:
+// BAD - Without re-read:
+if(current_button_state == 1 && last_button_state == 0){
+    delay(); 
+    GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12); // Always toggles after delay
+}
+
+This would toggle the LED even if:
+    Button was only pressed for 1ms
+    There was electrical noise
+    Switch bounced briefly
+
+Let's see these scenarios using some diagrams
+
+Scenario 1: Button Pressed for Only 1ms
+-------------------------------------------------------
+Time:           0ms    1ms    433ms   434ms
+                |      |      |       |
+Button:         ▁▁▁▁▁▁▁▀▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+                       ↑
+                   Very brief press
+
+Loop reads:     0      1      0       0
+Edge detected:  NO    YES     -       -
+Action:         -    delay()  toggle  -
+
+LED Result:     ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▀▀▀▀▀
+                                    ↑
+                              LED turns ON!
+
+PROBLEM: LED toggles even though button was only pressed 1ms!
+
+
+Scenario 2: Electrical Noise (Brief Spike)
+-------------------------------------------------------
+Time:           0ms    0.1ms  433ms   434ms
+                |      |      |       |
+Button:         ▁▁▁▁▁▁▁▀▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+                       ↑
+                   Noise spike
+
+Loop reads:     0      1      0       0
+Edge detected:  NO    YES     -       -
+Action:         -    delay()  toggle  -
+
+LED Result:     ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▀▀▀▀▀
+                                    ↑
+                              LED turns ON!
+
+PROBLEM: LED toggles due to electrical noise!
+
+Scenario 3: Switch Bounce (Multiple Quick Transitions)
+-------------------------------------------------------
+Time:           0ms    5ms    433ms   434ms
+                |      |      |       |
+Button:         ▁▁▁▁▁▁▁▀▁▀▁▀▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+                       ↑ ↑ ↑
+                    Bounce pattern
+
+Loop reads:     0      1      0       0
+Edge detected:  NO    YES     -       -
+Action:         -    delay()  toggle  -
+
+LED Result:     ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▀▀▀▀▀
+                                    ↑
+                              LED turns ON!
+
+PROBLEM: LED toggles even though bounce settled to LOW!
+
+==== Now With RE-READ (Proper Implementation): =====
+
+Time:           0ms    1ms    433ms   434ms
+                |      |      |       |
+Button:         ▁▁▁▁▁▁▁▀▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+                       ↑       ↑
+                   Brief press  Re-read = 0
+
+Loop reads:     0      1      0       0
+Edge detected:  NO    YES     -       -
+Re-read result: -      -      0       -
+Action:         -    delay()  NO toggle -
+
+LED Result:     ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+                                    
+FIXED: LED stays OFF because re-read confirms button not pressed!
+
+Time:           0ms    0.1ms  433ms   434ms
+                |      |      |       |
+Button:         ▁▁▁▁▁▁▁▀▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+                       ↑       ↑
+                   Noise spike  Re-read = 0
+
+Re-read result: -      -      0       -
+Action:         -    delay()  NO toggle -
+
+LED Result:     ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+
+FIXED: LED stays OFF because re-read shows noise is gone!

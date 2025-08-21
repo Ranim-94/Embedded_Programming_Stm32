@@ -4,7 +4,7 @@
 #include "stm32f407G.h"
 #include "gpio_driver.h"
 
-#define CYCLE 5e5
+#define CYCLE 1e5
 
 #define RUN_SOFT 1
 
@@ -59,12 +59,14 @@ GPIO_Init(&gpio_led);
 		
 		// Detect button press (rising edge) - button is normally low, high when pressed
 		if(current_button_state == 1 && last_button_state == 0){
+			
 			delay(); // Simple debouncing
+			
 			// Re-read after delay to confirm button is still pressed
-			if(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0) == 1){
-				GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12); // Toggle LED
-			}
-		}
+			if(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0) == 1)
+				GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12);// Toggle LED
+
+		} /* End if (edge detection)*/
 		
 		last_button_state = current_button_state;
 
