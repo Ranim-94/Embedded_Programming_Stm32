@@ -8,6 +8,17 @@
 
 #define RUN_SOFT 1
 
+#define BUTTON_HIGH 1
+/*
+	This define is important, because the high
+	of a button is not necessarly 1 on all microconctroller
+
+	In stm32f407 -> BUTTON_HIGH = 1
+	In stm32f411 (nucleo) -> BUTTON_HIGH = 0
+
+*/
+
+
 void delay(){
 
 	for(int i=0; i<CYCLE; i++){
@@ -58,12 +69,12 @@ GPIO_Init(&gpio_led);
 		uint8_t current_button_state = GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0);
 		
 		// Detect button press (rising edge) - button is normally low, high when pressed
-		if(current_button_state == 1 && last_button_state == 0){
+		if(current_button_state == BUTTON_HIGH && last_button_state == 0){
 			
 			delay(); // Simple debouncing
 			
 			// Re-read after delay to confirm button is still pressed
-			if(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0) == 1)
+			if(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_0) == BUTTON_HIGH)
 				GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_12);// Toggle LED
 
 		} /* End if (edge detection)*/
