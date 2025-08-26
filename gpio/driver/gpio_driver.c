@@ -294,6 +294,11 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 		// case it is activated before in some configuration
 		EXTI->RTSR &= 
 		~(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+		// Enable the interrupt delivery from the MCU -> processor
+		EXTI->IMR |= 
+		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+		
 		break;
 
 	case INT_RISING_EDGE:
@@ -307,6 +312,10 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 		EXTI->FTSR &= 
 		~(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
 
+		// Enable the interrupt delivery from the MCU -> processor
+		EXTI->IMR |= 
+		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
 	case INT_FALL_AND_RISE:
 
 		// Configure the interrupt for both falling and rising edge
@@ -315,6 +324,11 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 
 		EXTI->RTSR |= 
 		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+		// Enable the interrupt delivery from the MCU -> processor
+		EXTI->IMR |= 
+		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
 		break;	
 
 	default:
