@@ -22,7 +22,7 @@ typedef struct{
 // see section 8.4 from refrence manual
 
 typedef enum GPIO_Mode {IN,OUT,ALT,ANALOG,
-						INT_FALLIN_EDGE, INT_RISING_EDGE,
+						INT_FALLING_EDGE, INT_RISING_EDGE,
                         INT_FALL_AND_RISE} gpio_mode;
 // ALT for alternate
 // INT for interrupt

@@ -283,7 +283,40 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 
 		// Now we can set the alternate function register  
 		pGPIOHandle->gpio_reg_x->AFR[temp1] |= (pGPIOHandle->gpio_pin_conf.GPIO_PinAltFunMode << (4 * temp2));
-	
+
+	case INT_FALLING_EDGE:
+
+		// Configure the interrupt for falling edge
+		EXTI->FTSR |= 
+		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+		
+		// Clear the bit for rising edge for protection in 
+		// case it is activated before in some configuration
+		EXTI->RTSR &= 
+		~(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+		break;
+
+	case INT_RISING_EDGE:
+
+		// Configure the interrupt for rising edge
+		EXTI->RTSR |= 
+		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+		// Clear the bit for falling edge for protection in 
+		// case it is activated before in some configuration	
+		EXTI->FTSR &= 
+		~(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+	case INT_FALL_AND_RISE:
+
+		// Configure the interrupt for both falling and rising edge
+		EXTI->FTSR |= 
+		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+		EXTI->RTSR |= 
+		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+		break;	
+
 	default:
 		break;
 
