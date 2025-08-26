@@ -188,12 +188,11 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 
 	/*
 	 * This function configure the pin of a certain GPIO
-	 * such as : mode, speed, pull pull down resistor, output type
+	 * such as : mode, speed, pull up or pull down resistor, output type
 	 * 
 	 * In General, before setting any register, 
 	 * we need to make sure that the bits are cleared, because we don't
 	 * know what was the previous configuration was
-
 	 * That's why we clear the bits first in the code, then we set them
 	 *
 	 * */
@@ -203,17 +202,26 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 	//1. we speicify if we are in 
 	// Interrupt or non interrupt mode
 
-	if(pGPIOHandle->gpio_pin_conf.GPIO_PinMode < ANALOG){
-	// Here we are in non interrupt mode	
+	switch (pGPIOHandle->gpio_pin_conf.GPIO_PinMode){
+	
+		case IN:
+		case OUT:
+		/* In case we input or output mode 
 
+			We configure teh MODER (input or output), and various
+			other registers such speed, resistor pull up or pull down
+		
+		*/
+		
 	// 1.1. Configure the mode of the pin
-
 	// Clear the bits first
-	pGPIOHandle->gpio_reg_x->MODER &= ~(0x3 << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber));
+	pGPIOHandle->gpio_reg_x->MODER &= 
+	~(0x3 << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber));
 	// 0x3 is 11 in binary, so we clear the 2 bits corresponding to the pin number	
 	
 	// Now we can set the mode
-	pGPIOHandle->gpio_reg_x->MODER |=  pGPIOHandle->gpio_pin_conf.GPIO_PinMode << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);	 
+	pGPIOHandle->gpio_reg_x->MODER |=  
+	pGPIOHandle->gpio_pin_conf.GPIO_PinMode << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);	 
 
 	/*
 		- The pin mode is given by the user (00,01,...)
@@ -229,7 +237,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 
 	*/
 	
-	// Now we start by the othe registers, speed, output type, pull up and pull down resistor
+	// Now we start by other registers, speed, output type, pull up and pull down resistor
 
 	// 1.2. Configure the speed 
 		// Clear the bits first
@@ -256,10 +264,9 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 	
 	// Now we can set the pull up and pull down resistor
 	pGPIOHandle->gpio_reg_x->PUPDR |= (pGPIOHandle->gpio_pin_conf.GPIO_PinPuPdControl << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber));
+		break;
 
-	/* Configure alternate function*/
-
-	if (pGPIOHandle->gpio_pin_conf.GPIO_PinMode == ALT){
+	case ALT:
 
 		uint8_t temp1, temp2;
 		
@@ -276,11 +283,13 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 
 		// Now we can set the alternate function register  
 		pGPIOHandle->gpio_reg_x->AFR[temp1] |= (pGPIOHandle->gpio_pin_conf.GPIO_PinAltFunMode << (4 * temp2));
+	
+	default:
+		break;
 
-		} /* End if() for Alternate function*/
+	} /* End switch case GPIO_PinMode */
 
-
-	} /* End if(pin Mode< ANALOG) */
+	
 
 
 }/* End GPIO_Init()   */

@@ -13,7 +13,7 @@ typedef struct{
 
 } GPIO_PinConf_t;
 
-/* For the memeber of PinConf_t, each of the members
+/* For the members of PinConf_t, each of the members
    can take a value from the Enum defined below
 */
 
@@ -22,8 +22,8 @@ typedef struct{
 // see section 8.4 from refrence manual
 
 typedef enum GPIO_Mode {IN,OUT,ALT,ANALOG,
-						INT_FALLIN_EDGE, RISING_EDGE,
-                        FALL_AND_RISE} gpio_mode;
+						INT_FALLIN_EDGE, INT_RISING_EDGE,
+                        INT_FALL_AND_RISE} gpio_mode;
 // ALT for alternate
 // INT for interrupt
 
