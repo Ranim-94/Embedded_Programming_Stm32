@@ -69,7 +69,9 @@
 #define GPIOG_BASEADDR (AHB1PERIPH_BASEADDR + 0x1800)
 #define GPIOH_BASEADDR (AHB1PERIPH_BASEADDR + 0x1C00)
 #define GPIOI_BASEADDR (AHB1PERIPH_BASEADDR + 0x2000)
-#define RCC_BASEADDR (AHB1PERIPH_BASEADDR + 0x3800)
+
+
+#define EXTI (APB2PERIPH_BASEADDR + 0x3C00)
 
 /* Instantiate */
 
@@ -119,19 +121,22 @@ typedef struct{
 
 // ============= Clock configuration using RCC =============
 
+/* RCC peripheral is responsible for clock configuration */
 
-/*  Now for RCC, responsible for the clock */
+// Defining the address of RCC
+#define RCC_BASEADDR (AHB1PERIPH_BASEADDR + 0x3800)
 
+// Registers for the RCC peripheral
 typedef struct{
 
   __vo uint32_t CR;            /*  Address offset: 0x00 */
-  __vo uint32_t PLLCFGR;       /*									Address offset: 0x04 */
-  __vo uint32_t CFGR;          /* 	Address offset: 0x08 */
+  __vo uint32_t PLLCFGR;       /*	 Address offset: 0x04 */
+  __vo uint32_t CFGR;          /* Address offset: 0x08 */
   __vo uint32_t CIR;           /*  Address offset: 0x0C */
-  __vo uint32_t AHB1RSTR;      /* 	Address offset: 0x10 */
-  __vo uint32_t AHB2RSTR;      /*     										Address offset: 0x14 */
-  __vo uint32_t AHB3RSTR;      /*	Address offset: 0x18 */
-  	   uint32_t  RESERVED0;     /*            */
+  __vo uint32_t AHB1RSTR;      /* Address offset: 0x10 */
+  __vo uint32_t AHB2RSTR;      /* Address offset: 0x14 */
+  __vo uint32_t AHB3RSTR;      /* Address offset: 0x18 */
+       uint32_t  RESERVED0;     /*            */
   __vo uint32_t APB1RSTR;      /*   Address offset: 0x20 */
   __vo uint32_t APB2RSTR;      /*	Address offset: 0x24 */
   	   uint32_t RESERVED1[2];  /*                                                  */
@@ -143,7 +148,7 @@ typedef struct{
   __vo uint32_t APB2ENR;       /*	Address offset: 0x44 */
   	   uint32_t RESERVED3[2];  /*                                                 */
   __vo uint32_t AHB1LPENR;     /*	Address offset: 0x50 */
-  __vo uint32_t AHB2LPENR;     /*									Address offset: 0x54 */
+  __vo uint32_t AHB2LPENR;     /*	Address offset: 0x54 */
   __vo uint32_t AHB3LPENR;     /*	Address offset: 0x58 */
   	   uint32_t RESERVED4;     /*                                                   */
   __vo uint32_t APB1LPENR;     /*	Address offset: 0x60 */
@@ -163,6 +168,25 @@ typedef struct{
 
 /* Instantiate RCC struct at RCC specific address */
 #define RCC ((RCC_RegDef_t*)RCC_BASEADDR)
+
+// ======================= Interrupt ======================= 
+
+// Address of the EXTI peripheral
+#define EXTI_BASEADDR (APB2PERIPH_BASEADDR + 0x3C00)
+
+typedef struct {
+  __vo uint32_t EXTI_IMR ;
+  __vo uint32_t EXTI_EMR ;
+  __vo uint32_t EXTI_RSTR ;
+  __vo uint32_t EXTI_FSTR ;
+  __vo uint32_t EXTI_SWIER ;
+  __vo uint32_t EXTI_PR ;
+
+} EXTI_RegDef_t;
+
+// Instantiate EXTI struct at EXTI specific address
+#define EXTI ((EXTI_RegDef_t*)EXTI_BASEADDR)  
+
 
 
 // GENRIC MACROS used in different places
