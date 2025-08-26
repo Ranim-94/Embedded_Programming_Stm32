@@ -175,12 +175,12 @@ typedef struct{
 #define EXTI_BASEADDR (APB2PERIPH_BASEADDR + 0x3C00)
 
 typedef struct {
-  __vo uint32_t EXTI_IMR ;
-  __vo uint32_t EXTI_EMR ;
-  __vo uint32_t EXTI_RSTR ;
-  __vo uint32_t EXTI_FSTR ;
-  __vo uint32_t EXTI_SWIER ;
-  __vo uint32_t EXTI_PR ;
+  __vo uint32_t IMR ;
+  __vo uint32_t EMR ;
+  __vo uint32_t RTSR ;
+  __vo uint32_t FTSR ;
+  __vo uint32_t SWIER ;
+  __vo uint32_t PR ;
 
 } EXTI_RegDef_t;
 
