@@ -1,6 +1,9 @@
 
 #include "gpio_driver.h"
 
+
+// =============== Clock Functions ===============
+
 // GPIO Clock control functions
 void GPIOA_CLK_ON(void) { 
     RCC->AHB1ENR |= (1 << 0); 
@@ -74,6 +77,9 @@ void GPIOI_CLK_OFF(void) {
     RCC->AHB1ENR &= ~(1 << 8); 
 }
 
+// -----------------------------------------
+
+
 // GPIO Reset functions
 void GPIOA_RESET(void) { 
     RCC->AHB1RSTR |= (1 << 0);
@@ -85,10 +91,8 @@ void GPIOA_RESET(void) {
  it will reset the GPIOx peripheral, but then we need to clear the bit
  so we don't have 1 stuck in the register
 
- That's we have a 2nd statement in the macros GPIOx_RESET
- In C, we can use the do-while loop to execute to have multiple statements
- in a single macro, so we can have the reset and then clear the bit
- in the same macro
+ That's why we have a 2nd statement in the function GPIOx_RESET()
+ to clear the bit after the reset <-> RCC->AHB1RSTR &= ~(1 << 0);
 
 */
 
@@ -163,6 +167,27 @@ GPIO_Reset gpio_reset_table[] =  {
 	{GPIOH, GPIOH_RESET},
 	{GPIOI, GPIOI_RESET}
 };
+
+// ---- SYSCFG Peripheral ----
+
+/*
+   SYSCFG: see chapter 9 in reference manual
+
+   - It is connected to APB2 bus (see memory map table in reference manual)
+
+*/
+
+// SYSCFG Clock configuration
+
+void SYSCFG_CLK_ON(void) { 
+    RCC->APB2ENR |= (1 << 14); 
+}
+
+void SYSCFG_CLK_OFF(void) { 
+    RCC->APB2ENR &= ~(1 << 14); 
+}
+
+
 
 void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx,		
 						  uint8_t ON_OFF){
@@ -285,51 +310,54 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 		pGPIOHandle->gpio_reg_x->AFR[temp1] |= (pGPIOHandle->gpio_pin_conf.GPIO_PinAltFunMode << (4 * temp2));
 
 	case INT_FALLING_EDGE:
-
-		// Configure the interrupt for falling edge
-		EXTI->FTSR |= 
-		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
-		
-		// Clear the bit for rising edge for protection in 
-		// case it is activated before in some configuration
-		EXTI->RTSR &= 
-		~(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
-
-		// Enable the interrupt delivery from the MCU -> processor
-		EXTI->IMR |= 
-		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
-		
-		break;
-
 	case INT_RISING_EDGE:
-
-		// Configure the interrupt for rising edge
-		EXTI->RTSR |= 
-		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
-
-		// Clear the bit for falling edge for protection in 
-		// case it is activated before in some configuration	
-		EXTI->FTSR &= 
-		~(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
-
-		// Enable the interrupt delivery from the MCU -> processor
-		EXTI->IMR |= 
-		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
-
 	case INT_FALL_AND_RISE:
 
-		// Configure the interrupt for both falling and rising edge
-		EXTI->FTSR |= 
-		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
-
-		EXTI->RTSR |= 
-		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
-
 		// Enable the interrupt delivery from the MCU -> processor
 		EXTI->IMR |= 
 		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
 
-		break;	
+		// Configure GPIO pin selection through SYSCFG_EXTICR
+
+		// to choose from which of the 4 SYSCFG_EXTICR registers we use
+		uint8_t temp = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber / 4;
+
+		// compute the bit position in the EXTICR[x] register
+		uint8_t temp2 = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber % 4;
+
+		SYSCFG->EXTICR[temp] |= (SYSCFG_EXTICR_PORTA << (temp2 * 4));
+
+			// Now we configure EXTI for falling, rising or both
+
+			switch(pGPIOHandle->gpio_pin_conf.GPIO_PinMode){
+
+			case INT_FALLING_EDGE:
+				// Configure the interrupt for falling edge
+				EXTI->FTSR |= 
+				(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+				break;
+
+			case INT_RISING_EDGE:
+				// Configure the interrupt for rising edge
+				EXTI->RTSR |= 
+				(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+				break;
+
+			case INT_FALL_AND_RISE:
+				// Configure the interrupt for both falling and rising edge
+				EXTI->FTSR |= 
+				(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+				EXTI->RTSR |= 
+				(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+				break;
+
+			default:
+				break;
+
+		} /* End INNER switch case GPIO_PinMode */
+
+		break;
 
 	default:
 		break;

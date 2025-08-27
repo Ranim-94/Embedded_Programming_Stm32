@@ -137,6 +137,10 @@ void GPIOG_RESET(void);
 void GPIOH_RESET(void);
 void GPIOI_RESET(void);
 
+// ================== SYSCFG Clock Control Functions ==================
+void SYSCFG_CLK_ON(void);
+void SYSCFG_CLK_OFF(void);
+
 
 // ================== Now API Part (function part) ==================
 

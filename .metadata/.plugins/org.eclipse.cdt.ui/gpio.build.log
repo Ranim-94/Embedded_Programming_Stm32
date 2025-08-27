@@ -1,10 +1,10 @@
-17:02:00 **** Incremental Build of configuration Debug for project gpio ****
-make -j12 all 
-arm-none-eabi-size  gpio.elf 
-   text	   data	    bss	    dec	    hex	filename
-   1996	    108	   1564	   3668	    e54	gpio.elf
-Finished building: default.size.stdout
+09:58:21 **** Clean-only build of configuration Debug for project gpio ****
+make -j12 clean 
+rm -rf ./driver/gpio_driver.cyclo ./driver/gpio_driver.d ./driver/gpio_driver.o ./driver/gpio_driver.su
+rm -rf ./Startup/startup_stm32f407vgtx.d ./Startup/startup_stm32f407vgtx.o
+rm -rf ./Src/main_gpio.cyclo ./Src/main_gpio.d ./Src/main_gpio.o ./Src/main_gpio.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+rm -rf default.size.stdout gpio.elf gpio.list gpio.map
  
 
-17:02:00 Build Finished. 0 errors, 0 warnings. (took 77ms)
+09:58:21 Build Finished. 0 errors, 0 warnings. (took 90ms)
 

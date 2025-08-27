@@ -70,12 +70,6 @@
 #define GPIOH_BASEADDR (AHB1PERIPH_BASEADDR + 0x1C00)
 #define GPIOI_BASEADDR (AHB1PERIPH_BASEADDR + 0x2000)
 
-
-#define EXTI (APB2PERIPH_BASEADDR + 0x3C00)
-
-/* Instantiate */
-
-
 /*
  * Now we start creating some structure to hold
  * different registers of the GPIO peripheral
@@ -103,10 +97,9 @@ typedef struct{
  *
  * */
 
-/*2nd step: instantiate some GPIO port at sepecific addresses
+/*
+  2nd step: instantiate some GPIO port at sepecific addresses
  * according to memory map
- *
- *
  * */
 
 #define GPIOA ((GPIO_RegDef_t*)GPIOA_BASEADDR)
@@ -187,7 +180,28 @@ typedef struct {
 // Instantiate EXTI struct at EXTI specific address
 #define EXTI ((EXTI_RegDef_t*)EXTI_BASEADDR)  
 
+// ======================= SYSCFG ======================= 
 
+#define SYSCFG_BASEADDR (APB2PERIPH_BASEADDR + 0x3800) 
+/*
+  See memory map reference manual, page 67
+  SYSCFG is connected to APB2 bus
+*/
+
+//For registers, see 9.2.8 register map for stm32f07xx page 297
+typedef struct {
+  __vo uint32_t MEMRMP ;
+  __vo uint32_t PMC ;
+  __vo uint32_t EXTICR[4] ;
+  __vo uint32_t CMPCR ;
+
+} SYSCFG_RegDef_t;
+
+
+// Instantiate SYSCFG struct at SYSCFG specific address
+#define SYSCFG ((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
+
+// ======================= END SYSCFG ======================= 
 
 // GENRIC MACROS used in different places
 // such as comparison, ...
