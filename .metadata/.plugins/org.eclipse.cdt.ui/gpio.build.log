@@ -1,10 +1,22 @@
-09:58:21 **** Clean-only build of configuration Debug for project gpio ****
-make -j12 clean 
-rm -rf ./driver/gpio_driver.cyclo ./driver/gpio_driver.d ./driver/gpio_driver.o ./driver/gpio_driver.su
-rm -rf ./Startup/startup_stm32f407vgtx.d ./Startup/startup_stm32f407vgtx.o
-rm -rf ./Src/main_gpio.cyclo ./Src/main_gpio.d ./Src/main_gpio.o ./Src/main_gpio.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
-rm -rf default.size.stdout gpio.elf gpio.list gpio.map
+12:21:58 **** Build of configuration Debug for project gpio ****
+make -j12 all 
+arm-none-eabi-gcc "../driver/gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"/home/lenovo/Simulation_Linux/stm32_dev/gpio/driver" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"driver/gpio_driver.d" -MT"driver/gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "driver/gpio_driver.o"
+arm-none-eabi-gcc "../driver/stm32f407G.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"/home/lenovo/Simulation_Linux/stm32_dev/gpio/driver" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"driver/stm32f407G.d" -MT"driver/stm32f407G.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "driver/stm32f407G.o"
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f407vgtx.d" -MT"Startup/startup_stm32f407vgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f407vgtx.o" "../Startup/startup_stm32f407vgtx.s"
+arm-none-eabi-gcc "../Src/main_gpio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"/home/lenovo/Simulation_Linux/stm32_dev/gpio/driver" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main_gpio.d" -MT"Src/main_gpio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main_gpio.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"/home/lenovo/Simulation_Linux/stm32_dev/gpio/driver" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"/home/lenovo/Simulation_Linux/stm32_dev/gpio/driver" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc -o "gpio.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/lenovo/Simulation_Linux/stm32_dev/gpio/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="gpio.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: gpio.elf
+ 
+arm-none-eabi-size  gpio.elf 
+arm-none-eabi-objdump -h -S gpio.elf  > "gpio.list"
+   text	   data	    bss	    dec	    hex	filename
+   2488	    108	   1564	   4160	   1040	gpio.elf
+Finished building: default.size.stdout
+ 
+Finished building: gpio.list
  
 
-09:58:21 Build Finished. 0 errors, 0 warnings. (took 90ms)
+12:21:58 Build Finished. 0 errors, 0 warnings. (took 131ms)
 

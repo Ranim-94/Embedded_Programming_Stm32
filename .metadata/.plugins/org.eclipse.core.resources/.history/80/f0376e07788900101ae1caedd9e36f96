@@ -1,0 +1,519 @@
+
+#include "gpio_driver.h"
+
+
+// =============== Clock Functions ===============
+
+// GPIO Clock control functions
+void GPIOA_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 0); 
+}
+
+void GPIOA_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 0); 
+}
+
+void GPIOB_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 1); 
+}
+
+void GPIOB_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 1); 
+}
+
+void GPIOC_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 2); 
+}
+
+void GPIOC_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 2); 
+}
+
+void GPIOD_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 3); 
+}
+
+void GPIOD_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 3); 
+}
+
+void GPIOE_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 4); 
+}
+
+void GPIOE_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 4); 
+}
+
+void GPIOF_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 5); 
+}
+
+void GPIOF_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 5); 
+}
+
+void GPIOG_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 6); 
+}
+
+void GPIOG_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 6); 
+}
+
+void GPIOH_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 7); 
+}
+
+void GPIOH_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 7); 
+}
+
+void GPIOI_CLK_ON(void) { 
+    RCC->AHB1ENR |= (1 << 8); 
+}
+
+void GPIOI_CLK_OFF(void) { 
+    RCC->AHB1ENR &= ~(1 << 8); 
+}
+
+// -----------------------------------------
+
+
+// GPIO Reset functions
+void GPIOA_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 0);
+    RCC->AHB1RSTR &= ~(1 << 0);
+}
+
+/*
+ Here once we set the bit in the RCC_AHB1RSTR register
+ it will reset the GPIOx peripheral, but then we need to clear the bit
+ so we don't have 1 stuck in the register
+
+ That's why we have a 2nd statement in the function GPIOx_RESET()
+ to clear the bit after the reset <-> RCC->AHB1RSTR &= ~(1 << 0);
+
+*/
+
+
+void GPIOB_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 1);
+    RCC->AHB1RSTR &= ~(1 << 1);
+}
+
+void GPIOC_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 2);
+    RCC->AHB1RSTR &= ~(1 << 2);
+}
+
+void GPIOD_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 3);
+    RCC->AHB1RSTR &= ~(1 << 3);
+}
+
+void GPIOE_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 4);
+    RCC->AHB1RSTR &= ~(1 << 4);
+}
+
+void GPIOF_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 5);
+    RCC->AHB1RSTR &= ~(1 << 5);
+}
+
+void GPIOG_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 6);
+    RCC->AHB1RSTR &= ~(1 << 6);
+}
+
+void GPIOH_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 7);
+    RCC->AHB1RSTR &= ~(1 << 7);
+}
+
+void GPIOI_RESET(void) { 
+    RCC->AHB1RSTR |= (1 << 8);
+    RCC->AHB1RSTR &= ~(1 << 8);
+}
+
+
+GPIO_ClkMap gpio_clk_map[] = {
+    {GPIOA, GPIOA_CLK_ON, GPIOA_CLK_OFF},
+    {GPIOB, GPIOB_CLK_ON, GPIOB_CLK_OFF},
+    {GPIOC, GPIOC_CLK_ON, GPIOC_CLK_OFF},
+    {GPIOD, GPIOD_CLK_ON, GPIOD_CLK_OFF},
+    {GPIOE, GPIOE_CLK_ON, GPIOE_CLK_OFF},
+    {GPIOF, GPIOF_CLK_ON, GPIOF_CLK_OFF},
+    {GPIOG, GPIOG_CLK_ON, GPIOG_CLK_OFF},
+    {GPIOH, GPIOH_CLK_ON, GPIOH_CLK_OFF},
+    {GPIOI, GPIOI_CLK_ON, GPIOI_CLK_OFF}
+};
+
+// Define the reset table for GPIO peripherals
+// This table will be used to reset GPIOx peripherals
+// using the RCC_AHB1RSTR register using the 
+// function GPIO_DeInit()
+
+GPIO_Reset gpio_reset_table[] =  {
+
+	{GPIOA, GPIOA_RESET},	
+	{GPIOB, GPIOB_RESET},
+	{GPIOC, GPIOC_RESET},
+	{GPIOD, GPIOD_RESET},
+	{GPIOE, GPIOE_RESET},
+	{GPIOF, GPIOF_RESET},
+	{GPIOG, GPIOG_RESET},
+	{GPIOH, GPIOH_RESET},
+	{GPIOI, GPIOI_RESET}
+};
+
+// ---- SYSCFG Peripheral ----
+
+/*
+   SYSCFG: see chapter 9 in reference manual
+
+   - It is connected to APB2 bus (see memory map table in reference manual)
+
+*/
+
+// SYSCFG Clock configuration
+// Recall that clock for different peripherals are configured
+// via RCC
+
+void SYSCFG_CLK_ON(void) { 
+    RCC->APB2ENR |= (1 << 14); 
+}
+
+void SYSCFG_CLK_OFF(void) { 
+    RCC->APB2ENR &= ~(1 << 14); 
+}
+
+
+
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx,		
+						  uint8_t ON_OFF){
+
+	   for (int i = 0; i < NB_GPIO_PORTS; ++i) {
+
+        if (gpio_clk_map[i].base == pGPIOx) {
+            if (ON_OFF == ON)
+                gpio_clk_map[i].clk_on();
+            else
+                gpio_clk_map[i].clk_off();
+            break;
+        }
+    } /* End for loop for all ports */
+
+
+} /* End GPIO_PeriClockControl() */
+
+// =========================================================
+
+
+void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
+
+	/*
+	 * This function configure the pin of a certain GPIO
+	 * such as : mode, speed, pull up or pull down resistor, output type
+	 * 
+	 * In General, before setting any register, 
+	 * we need to make sure that the bits are cleared, because we don't
+	 * know what was the previous configuration was
+	 * That's why we clear the bits first in the code, then we set them
+	 *
+	 * */
+
+	
+
+	//1. we speicify if we are in 
+	// Interrupt or non interrupt mode
+
+	switch (pGPIOHandle->gpio_pin_conf.GPIO_PinMode){
+	
+		case IN:
+		case OUT:
+		/* In case we input or output mode 
+
+			We configure teh MODER (input or output), and various
+			other registers such speed, resistor pull up or pull down
+		
+		*/
+		
+	// 1.1. Configure the mode of the pin
+	// Clear the bits first
+	pGPIOHandle->gpio_reg_x->MODER &= 
+	~(0x3 << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber));
+	// 0x3 is 11 in binary, so we clear the 2 bits corresponding to the pin number	
+	
+	// Now we can set the mode
+	pGPIOHandle->gpio_reg_x->MODER |=  
+	pGPIOHandle->gpio_pin_conf.GPIO_PinMode << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);	 
+
+	/*
+		- The pin mode is given by the user (00,01,...)
+		we shift it to the right position
+		- The multiplier is 2 because each pin mode
+		occupies 2 bits in the GPIOx_MODER register
+		- Example: if pin number =1 then 2*1 = 2
+		- Recall that counting starts from 0
+		- Other example: if pin number =2 (MODER2), then
+		2*2 = 4, so we shift the pin mode by 4 bits
+
+		The mode value will be stored in the GPIOx_MODER register
+
+	*/
+	
+	// Now we start by other registers, speed, output type, pull up and pull down resistor
+
+	// 1.2. Configure the speed 
+		// Clear the bits first
+	pGPIOHandle->gpio_reg_x->OSPEEDR &= ~(0x3 << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber));
+		// 0x3 is 11 in binary, so we clear the 2 bits corresponding to the pin number
+	
+		// Now we can set the speed
+	pGPIOHandle->gpio_reg_x->OSPEEDR |= (pGPIOHandle->gpio_pin_conf.GPIO_PinSpeed << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber));
+
+	// 1.3. Configure the output type
+
+	//Clear the bits first
+	pGPIOHandle->gpio_reg_x->OTYPER &= ~(0x1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+	// 0x1 is 01 in binary, so we clear the bit corresponding to the pin number
+	
+	// Now we can set the output type
+	pGPIOHandle->gpio_reg_x->OTYPER |= (pGPIOHandle->gpio_pin_conf.GPIO_PinOPType << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+	// 1.4. Configure the pull up and pull down resistor
+
+	// Clear the bits first
+	pGPIOHandle->gpio_reg_x->PUPDR &= ~(0x3 << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber));
+	// 0x3 is 11 in binary, so we clear the 2 bits corresponding to the pin number
+	
+	// Now we can set the pull up and pull down resistor
+	pGPIOHandle->gpio_reg_x->PUPDR |= (pGPIOHandle->gpio_pin_conf.GPIO_PinPuPdControl << (2 * pGPIOHandle->gpio_pin_conf.GPIO_PinNumber));
+		break;
+
+	case ALT:
+
+		uint8_t temp1, temp2;
+		
+		temp1 = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber/8;
+		// this will give us the index of the AFR register
+		// if AFR[0] or AFR[1]
+
+		// Now which bit position in the AFR register
+		temp2 = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber % 8;
+
+		// Clearing the bits in the AFR register first
+		pGPIOHandle->gpio_reg_x->AFR[temp1] &= ~(0xF << (4 * temp2));
+		// 0xF is 1111, so we clear the 4 bits corresponding to the pin number
+
+		// Now we can set the alternate function register  
+		pGPIOHandle->gpio_reg_x->AFR[temp1] |= (pGPIOHandle->gpio_pin_conf.GPIO_PinAltFunMode << (4 * temp2));
+
+		break; // End case ALT
+	
+	// ================ Interrupt mode ================
+
+		
+	case INT_FALLING_EDGE:
+	case INT_RISING_EDGE:
+	case INT_FALL_AND_RISE:
+
+		// step 1: Enable the interrupt delivery from the MCU -> processor
+		EXTI->IMR |= 
+		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+		// step 2: Configure GPIO pin selection through SYSCFG_EXTICR
+		// for SYSCFG peripheral: see chapter 9 in reference manual
+
+		// 2.1: to choose from which of the 4 SYSCFG_EXTICR registers we need to use
+		// based on the pin number
+		uint8_t index_extir = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber / 4;
+
+		// 2.2: compute the bit position in the EXTICR[x] register
+		// also based on pin number
+		uint8_t section_extir = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber % 4;
+
+		// 2.3: for a specific addresses of GPIOx, we need to map it to a code
+		// Example: GPIOAx ->0000, GPIOBx -> 0001, ...
+		// Input is: GPIO_RegDef_t *pGPIO, the address of GPIOx
+		uint8_t portcode = GPIO_BASEADDR_TO_CODE(pGPIOHandle->gpio_reg_x);
+
+		SYSCFG_CLK_ON(); // Enable clock for SYSCFG peripheral
+
+		SYSCFG->EXTICR[index_extir] |= (portcode << (temp2 * 4));
+
+			//Step 3: Now we configure EXTI for falling, rising or both
+
+			switch(pGPIOHandle->gpio_pin_conf.GPIO_PinMode){
+
+			case INT_FALLING_EDGE:
+				// Configure the interrupt for falling edge
+				EXTI->FTSR |= 
+				(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+				break;
+
+			case INT_RISING_EDGE:
+				// Configure the interrupt for rising edge
+				EXTI->RTSR |= 
+				(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+				break;
+
+			case INT_FALL_AND_RISE:
+				// Configure the interrupt for both falling and rising edge
+				EXTI->FTSR |= 
+				(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+
+				EXTI->RTSR |= 
+				(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
+				break;
+
+			default:
+				break;
+
+		} /* End INNER switch case GPIO_PinMode */
+
+		break;
+
+	default:
+		break;
+
+	} /* End switch case GPIO_PinMode */
+
+	
+
+
+}/* End GPIO_Init()   */
+
+
+void GPIO_DeInit(GPIO_RegDef_t *pGPIOx){
+
+/* This function resets the GPIO registers 
+	To reset a GPIOx port, we need to set the corresponding 
+	bit in the RCC register
+
+	For GPIOx,the correspondent RCC register is RCC_AHB1RSTR
+	see section 7.3.5 from reference manual
+
+*/
+		for(int i = 0; i < NB_GPIO_PORTS; ++i) {
+		
+		if (gpio_reset_table[i].base == pGPIOx) {
+			
+			gpio_reset_table[i].reset_gpiox();
+			
+			break;
+		}
+
+	} /* End for loop for all ports */
+
+} /* End GPIO_DeInit() */
+
+
+uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx,
+							  uint8_t PinNumber){
+
+
+uint8_t value;
+
+value = (uint8_t)((pGPIOx->IDR >> PinNumber) & 0x1) ;
+
+/*
+Reading a data from a pin is done by reading the IDR register
+The IDR register is a 32-bit register, so we need to shift the pin number
+to the right by the pin number, and then we mask the result with 0x1
+to get the value of the pin (0 or 1)
+
+Since we shift the IDR register by the pin number to the right,
+the value of the pin will be in the least significant bit (LSB) 
+That's why we mask the result with 0x1, meaning we only care about the LSB
+and the mask value is 0x1 (which is 0000...0001 in binary)
+
+Don't forget to cast the result to uint8_t
+
+
+*/
+return value;
+
+
+
+} /* End GPIO_ReadFromInputPin() */
+
+
+uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx){
+
+/*
+	In this function we read the whole input port
+	So we read the entire IDR register
+
+*/
+
+return (uint16_t)(pGPIOx->IDR);
+
+
+} /* End GPIO_ReadFromInputPort() */
+
+void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx,
+						uint8_t PinNumber, uint8_t Value){
+
+/*
+This function writes a value to a pin
+The value can be 0 or 1
+
+For this, we need to write to the ODR register
+
+*/
+
+if (Value == ON){
+	// Write 1 to the pin
+	pGPIOx->ODR |= (1 << PinNumber);
+
+} else {
+	
+	// Write 0 to the pin
+	pGPIOx->ODR &= ~(1 << PinNumber);
+
+	} /* End if-else */
+
+} /* End GPIO_WriteToOutputPin() */
+
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,
+							uint16_t Value){
+
+/*
+This function writes a value to the whole output port
+We write to the ODR register
+*/
+
+pGPIOx->ODR = Value; // Write value to the entire ODR register
+
+} /* End GPIO_WriteToOutputPort() */
+
+void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, 
+                         uint8_t PinNumber){
+
+
+	pGPIOx->ODR ^= (1 << PinNumber);
+
+/*
+
+This function toggles the output pin
+We use the XOR operator to toggle the pin
+If the pin is 0, it will become 1, and if it is 1, it will become 0
+
+We use the ODR register to toggle the pin
+We shift 1 to the left by PinNumber to get the bit corresponding to the pin number
+
+Then we XOR the ODR register with this value */
+
+
+} /* End GPIO_ToggleOutputPin() */
+
+
+
+
+
+
+						
+
