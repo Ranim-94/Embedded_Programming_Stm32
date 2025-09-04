@@ -83,13 +83,13 @@ typedef struct{
 
 // ============================================================
 
-typedef struct {
+typedef struct{
     GPIO_RegDef_t *base;
     void (*clk_on)(void);
     void (*clk_off)(void);
 } GPIO_ClkMap;
 
-typedef struct gpio_driver{
+typedef struct{
     GPIO_RegDef_t *base;
     void (*reset_gpiox)(void);
 
@@ -166,6 +166,9 @@ void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,
 
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, 
                          uint8_t PinNumber);
+
+
+
 
 
 

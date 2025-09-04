@@ -178,6 +178,8 @@ GPIO_Reset gpio_reset_table[] =  {
 */
 
 // SYSCFG Clock configuration
+// Recall that clock for different peripherals are configured
+// via RCC
 
 void SYSCFG_CLK_ON(void) { 
     RCC->APB2ENR |= (1 << 14); 
@@ -309,25 +311,40 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 		// Now we can set the alternate function register  
 		pGPIOHandle->gpio_reg_x->AFR[temp1] |= (pGPIOHandle->gpio_pin_conf.GPIO_PinAltFunMode << (4 * temp2));
 
+		break; // End case ALT
+	
+	// ================ Interrupt mode ================
+
+		
 	case INT_FALLING_EDGE:
 	case INT_RISING_EDGE:
 	case INT_FALL_AND_RISE:
 
-		// Enable the interrupt delivery from the MCU -> processor
+		// step 1: Enable the interrupt delivery from the MCU -> processor
 		EXTI->IMR |= 
 		(1 << pGPIOHandle->gpio_pin_conf.GPIO_PinNumber);
 
-		// Configure GPIO pin selection through SYSCFG_EXTICR
+		// step 2: Configure GPIO pin selection through SYSCFG_EXTICR
+		// for SYSCFG peripheral: see chapter 9 in reference manual
 
-		// to choose from which of the 4 SYSCFG_EXTICR registers we use
-		uint8_t temp = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber / 4;
+		// 2.1: to choose from which of the 4 SYSCFG_EXTICR registers we need to use
+		// based on the pin number
+		uint8_t index_extir = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber / 4;
 
-		// compute the bit position in the EXTICR[x] register
-		uint8_t temp2 = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber % 4;
+		// 2.2: compute the bit position in the EXTICR[x] register
+		// also based on pin number
+		uint8_t bit_post_extir = pGPIOHandle->gpio_pin_conf.GPIO_PinNumber % 4;
 
-		SYSCFG->EXTICR[temp] |= (SYSCFG_EXTICR_PORTA << (temp2 * 4));
+		// 2.3: for a specific addresses of GPIOx, we need to map it to a code
+		// Example: GPIOAx ->0000, GPIOBx -> 0001, ...
+		// Input is: GPIO_RegDef_t *pGPIO, the address of GPIOx
+		uint8_t portcode = GPIO_BASEADDR_TO_CODE(pGPIOHandle->gpio_reg_x);
 
-			// Now we configure EXTI for falling, rising or both
+		SYSCFG_CLK_ON(); // Enable clock for SYSCFG peripheral
+
+		SYSCFG->EXTICR[index_extir] |= (portcode << (bit_post_extir * 4));
+
+			//Step 3: Now we configure EXTI for falling, rising or both
 
 			switch(pGPIOHandle->gpio_pin_conf.GPIO_PinMode){
 
@@ -492,6 +509,8 @@ Then we XOR the ODR register with this value */
 
 
 } /* End GPIO_ToggleOutputPin() */
+
+
 
 
 

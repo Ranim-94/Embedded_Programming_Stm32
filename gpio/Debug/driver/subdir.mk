@@ -5,13 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../driver/gpio_driver.c 
+../driver/gpio_driver.c \
+../driver/stm32f407G.c 
 
 OBJS += \
-./driver/gpio_driver.o 
+./driver/gpio_driver.o \
+./driver/stm32f407G.o 
 
 C_DEPS += \
-./driver/gpio_driver.d 
+./driver/gpio_driver.d \
+./driver/stm32f407G.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +24,7 @@ driver/%.o driver/%.su driver/%.cyclo: ../driver/%.c driver/subdir.mk
 clean: clean-driver
 
 clean-driver:
-	-$(RM) ./driver/gpio_driver.cyclo ./driver/gpio_driver.d ./driver/gpio_driver.o ./driver/gpio_driver.su
+	-$(RM) ./driver/gpio_driver.cyclo ./driver/gpio_driver.d ./driver/gpio_driver.o ./driver/gpio_driver.su ./driver/stm32f407G.cyclo ./driver/stm32f407G.d ./driver/stm32f407G.o ./driver/stm32f407G.su
 
 .PHONY: clean-driver
 

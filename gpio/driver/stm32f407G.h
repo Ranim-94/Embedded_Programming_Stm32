@@ -210,6 +210,8 @@ typedef struct {
 #define OFF 0
 
 
+uint8_t GPIO_BASEADDR_TO_CODE(GPIO_RegDef_t *pGPIOx);
+
 
 
 

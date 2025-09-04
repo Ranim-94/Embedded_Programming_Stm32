@@ -3,3 +3,4 @@
 "./Src/sysmem.o"
 "./Startup/startup_stm32f407vgtx.o"
 "./driver/gpio_driver.o"
+"./driver/stm32f407G.o"
