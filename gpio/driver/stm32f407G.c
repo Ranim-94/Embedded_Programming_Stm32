@@ -6,7 +6,7 @@
 
 uint8_t GPIO_BASEADDR_TO_CODE(GPIO_RegDef_t *pGPIOx){
 /*
-	Based on some addresse of some port (GPIOA,GPIOB,...)
+	Based on some address of some port (GPIOA,GPIOB,...)
 	We transform them into some code
 
 	See 9.2.3 in the ref manual
@@ -16,6 +16,7 @@ uint8_t GPIO_BASEADDR_TO_CODE(GPIO_RegDef_t *pGPIOx){
 uint8_t porte_code;
 
 	switch ((uint32_t)pGPIOx){
+
 		case (uint32_t)GPIOA:
 			porte_code = 0;
 			break;

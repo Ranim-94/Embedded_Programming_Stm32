@@ -1,6 +1,7 @@
 
 #include "gpio_driver.h"
 
+#include "cortex_m4.h"
 
 // =============== Clock Functions ===============
 
@@ -344,7 +345,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 
 		SYSCFG->EXTICR[index_extir] |= (portcode << (bit_post_extir * 4));
 
-			//Step 3: Now we configure EXTI for falling, rising or both
+			//Step 3: Now we configure EXTI for falling edge, rising or both
 
 			switch(pGPIOHandle->gpio_pin_conf.GPIO_PinMode){
 
@@ -511,9 +512,135 @@ Then we XOR the ODR register with this value */
 } /* End GPIO_ToggleOutputPin() */
 
 
+void GPIO_IRQ_InterruptConfig(uint8_t IRQNumber,uint8_t ON_OFF_Interrupt){
+
+	/*
+	 * This function handle interrupt from the processor side
+	 *
+	 * In the processor, the peripheral responsible for interrupt is the NVIC
+	 * Reference for NVIC: refer to cortexM4_generic user guide
+	 * 		- section 4.2 for the registers of the NVIC
+	 *
+	 * We will program 2 registers:
+	 *
+	 * 	1. NVIC_ISERx
+	 * 	2. NVIC_ICERx
+	 * 		- for 1. and 2, (x 0 ->7, we have 8 registers)
+	 *
+	 * 	For NVIC_ISERx:
+	 * 	- We can enable interrupt line on this registers
+	 * 	- 0 has no effect: only enable interrupt, we can't disable it
+	 * 	- each ISEQx handle 31 registers
+	 * 		NVIC_ISER0: 0->31
+	 * 		NVIC_ISER1: 32->63 (we add 31 to 32)
+	 *
+	 * 	2.For NVIC_ICERx: we disable the interrupt
+	 * 		also 0 has no effect
+	 * 		same concept of NVIC_SERx: we have 8 registers
+	 *
+	 *
+	 * */
 
 
+	switch(ON_OFF_Interrupt){
 
+	case ON:
+
+		if (IRQNumber <= 31){
+			*NVIC_ISER_0 |= 1<< IRQNumber;
+		}
+		else if(IRQNumber >= 32 && IRQNumber < 64){
+
+			*NVIC_ISER_1 |= 1<< (IRQNumber%32);
+
+			/*
+			 * Example: for ISER_1: IRQ number 33 if configured via
+			 * bit 1 in NVIC_ISER_1
+			 *
+			 * 33 % 32 = IRQNUMber % 32 = 1
+			 *
+			 * */
+		}
+		else if(IRQNumber >= 64 && IRQNumber < 96){
+
+
+			*NVIC_ISER_2 |= 1<< (IRQNumber%64);
+			// Note that we increase to 64 the modulo operation
+			// because the range of IRQ number is getting bigger
+			// in this block
+
+		}
+
+		break;
+
+
+	case OFF:
+	// default: interrupt is off
+
+		if (IRQNumber <= 31){
+				*NVIC_ICER_0 |= 1<< IRQNumber;
+			}
+			else if(IRQNumber >= 32 && IRQNumber < 64){
+
+				*NVIC_ICER_1 |= 1<< (IRQNumber%32);
+
+
+			}
+			else if(IRQNumber >= 64 && IRQNumber < 96){
+
+
+				*NVIC_ICER_2 |= 1<< (IRQNumber%64);
+				// Note that we increase to 64 the modulo operation
+				// because the range of IRQ number is getting bigger
+				// in this block
+
+			}
+
+			break;
+
+	} /* End switch case*/
+
+
+} /* End GPIO_IRQ_InterruptConfig()   */
+
+
+void GPIO_Interrupt_Priority(uint8_t IRQNumber, uint8_t IRQ_Priority){
+
+	/*
+	 * 3. NVIC_IPRy (for priority of interrupt)
+	 * 		y: 0->59, we have 60 registers
+	 *
+	 *
+	 * */
+
+
+	// Step 1: identify y <-> which one of the 60 register we need
+	// to set for a given IRQ number
+
+	uint8_t ipr_y = IRQNumber/4;
+
+	// Step 2: which section of the IPR_y register need to set
+	uint8_t ipr_y_section = IRQNumber % 4;
+
+	uint8_t shift_amount = (8*ipr_y_section)+ (8-NB_BITS_IMPLEMENTED);
+	// the + (8-NB_BITS_IMPLEMENTED) because the 1st 4 bits of each section
+	// in each IPR_y register are not implemented
+
+	*(NVIC_IPR_BASE_ADD + 4*ipr_y) |= (IRQNumber << shift_amount);
+
+
+} /* End GPIO_Interrupt_Priority() */
+
+void GPIO_IRQ_Handle(uint8_t pin_nb){
+
+	if (EXTI->PR & (1<<pin_nb)){
+
+		// Clear pending register by setting 1
+		EXTI->PR |= (1<<pin_nb);
+	}
+
+
+}/* End GPIO_IRQ_Handle()  */
 
 						
 

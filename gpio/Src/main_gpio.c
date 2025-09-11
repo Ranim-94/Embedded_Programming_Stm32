@@ -11,10 +11,10 @@
 #define BUTTON_HIGH 1
 /*
 	This define is important, because the high
-	of a button is not necessarly 1 on all microconctroller
+	of a button is not necessary 1 on all microcontroller
 
 	In stm32f407 -> BUTTON_HIGH = 1
-	In stm32f411 (nucleo) -> BUTTON_HIGH = 0
+	In stm32f411 (Nucleo) -> BUTTON_HIGH = 0
 
 */
 

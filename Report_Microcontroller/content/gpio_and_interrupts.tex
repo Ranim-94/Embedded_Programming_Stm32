@@ -185,4 +185,68 @@ All of the above can be summarized in \autoref{fig:gpio_interrupts:gpio_interrup
 
 
 
+\newpage
+\section{Programming Section}
+
+This section describes pure programming points I used in my project. 
+
+Mainly, it contains some block diagram or some sketches about register descriptions, their functions, which are clearer then the official documents
+
+
+\subsection{Interrupt priority}
+
+To configure interrupt priority, we need to use \verb|NVIC_IPR_x|, where \verb|x| is from 0 $\rightarrow$ 59. It is anatomy is shown in \autoref{fig:gpio_interrupts:ipr_reg}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3,frame]{Figures/gpio_interrupts/ipr_reg}
+\caption{IPR Register anatomy}
+\label{fig:gpio_interrupts:ipr_reg}
+\end{figure}
+
+\begin{itemize}
+
+\item Each register is divided into 4 section of 8 bits
+
+\item Each section handle the priority of \verb|IRQ| number
+
+\item Example: \verb|IPR0| handles IRQ from 0 $\rightarrow$ 3
+
+\end{itemize}
+
+So to program the priority, we have to ask: which register for a given \verb|IRQ| number \verb|IPRx| we have to touch, and which section of this \verb|IPRx| we have to set.\\
+
+As example; take \verb|IRQ| = 236.
+
+\begin{itemize}
+
+\item For \verb|IPRx|, we 236 \verb|/| 4 = 59 $\rightarrow$ we touch the \verb|IPR59| register
+
+\item Now for the section, we do a modulo operation 236 \verb|%| 4 = 0
+
+\end{itemize}
+
+
+\underline{Project:} \verb|gpio|
+
+
+\subsection{Handling IRQ}
+
+\underline{Function:} \verb|void GPIO_IRQ_InterruptConfig(uint8_t IRQNumber, uint8_t IRQ_Priority, uint8_t ENorDI)|
+
+\begin{itemize}
+
+\item Will handle interrupt, but now from processor side
+
+\item Peripheral responsible for the peripheral side: \verb|NVIC|
+
+	\begin{itemize}
+	\item 
+	\end{itemize}
+
+\end{itemize}
+
+
+
+
 

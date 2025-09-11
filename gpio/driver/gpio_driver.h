@@ -19,7 +19,7 @@ typedef struct{
 
 // ------------ Coding states for GPIO Registers ------------
 
-// see section 8.4 from refrence manual
+// see section 8.4 from reference manual
 
 typedef enum GPIO_Mode {IN,OUT,ALT,ANALOG,
 						INT_FALLING_EDGE, INT_RISING_EDGE,
@@ -106,26 +106,33 @@ extern GPIO_Reset gpio_reset_table[];
 // ================== GPIO Clock Control Function Declarations ==================
 
 void GPIOA_CLK_ON(void);
-
 void GPIOA_CLK_OFF(void);
+
 void GPIOB_CLK_ON(void);
 void GPIOB_CLK_OFF(void);
+
 void GPIOC_CLK_ON(void);
 void GPIOC_CLK_OFF(void);
+
 void GPIOD_CLK_ON(void);
 void GPIOD_CLK_OFF(void);
+
 void GPIOE_CLK_ON(void);
 void GPIOE_CLK_OFF(void);
+
 void GPIOF_CLK_ON(void);
 void GPIOF_CLK_OFF(void);
+
 void GPIOG_CLK_ON(void);
 void GPIOG_CLK_OFF(void);
+
 void GPIOH_CLK_ON(void);
 void GPIOH_CLK_OFF(void);
+
 void GPIOI_CLK_ON(void);
 void GPIOI_CLK_OFF(void);
 
-// ================== GPIO Reset Function Declarations ==================
+// ================== GPIO Reset Function ==================
 
 void GPIOA_RESET(void);
 void GPIOB_RESET(void);
@@ -167,6 +174,13 @@ void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, 
                          uint8_t PinNumber);
 
+
+// IRQ Configuration and ISR handling
+void GPIO_IRQ_InterruptConfig(uint8_t IRQNumber,uint8_t ON_OFF_Interrupt);
+
+void GPIO_Interrupt_Priority(uint8_t IRQNumber, uint8_t IRQ_Priority);
+
+void GPIO_IRQ_Handle(uint8_t pin_nb);
 
 
 

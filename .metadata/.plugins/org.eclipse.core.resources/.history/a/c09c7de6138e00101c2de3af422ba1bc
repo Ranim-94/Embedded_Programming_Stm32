@@ -1,0 +1,33 @@
+
+
+
+#pragma once
+
+/*
+ *
+ * A header file for the processor specific
+ * processor type: Arm cortex m4
+ *
+ * */
+
+
+#include<stdint.h>
+
+#define __vo volatile
+
+// NVIC Registers: see section 4.2, Table 4-2 for addresses of registers
+
+/*
+ * NVIC_ISER_x: there are 8 registers, we code up 4 registers
+ * if we need more, we code up more later
+ *
+ * */
+
+
+#define NVIC_ISER_0 ((__vo uint32_t*)0xE000E100)
+#define NVIC_ISER_1 ((__vo uint32_t*)0xE000E104)
+#define NVIC_ISER_2 ((__vo uint32_t*)0xE000E108)
+#define NVIC_ISER_3 ((__vo uint32_t*)0xE000E10C)
+
+
+// for NVIC_ICER_x: same as NVIC_ISER_x
