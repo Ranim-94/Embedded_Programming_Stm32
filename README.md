@@ -19,7 +19,7 @@ The IDE used is [StmcubIDE](https://www.st.com/content/st_com/en/stm32cubeide.ht
   - contains for real time implementation
   - always present the stm ecosystem nicely
 
-- [Stepp School] (https://www.youtube.com/@steppeschool3629)
+- [Stepp School](https://www.youtube.com/@steppeschool3629)
   - Nice practical projects (beyond classical)
   - has a nice strucutred course about stm32 eco system, like how to use `HAL` and stmcube software
 
