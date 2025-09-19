@@ -247,6 +247,34 @@ As example; take \verb|IRQ| = 236.
 \end{itemize}
 
 
+\section{Interrupt Flow}
+
+
+After coding a complete example, let's see what happen when an interrupt is activated.\\
+
+\underline{Note:} Recall that an interrupt depend on the peripheral we are programming: like an GPIO interrupt is different than an I2C interrupt.\\
+
+Now the steps will be stated below, and refer to \autoref{fig:gpio_interrupts:gpio_interrupts_block} to follow along
+
+\begin{itemize}
+
+\item Suppose we configure some button to be detected on falling edge for example
+
+\item When we press the buttong, the \verb|EXTI| engine detect the transition (whether it is falling edge or rising edge)
+
+\item Now if falling edge is detected and interrupt is enabled, then interrupt will be sended via the \verb|EXTIx| line to associated \verb|IRQ| number
+
+\item If the processor is not executing any other interrupt, it fetches the vector addresse for the corresponding \verb|IRQ| number
+
+	\begin{itemize}
+	\item 
+	\end{itemize}
+
+
+\end{itemize}
+
+
+
 
 
 

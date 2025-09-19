@@ -175,7 +175,7 @@ typedef struct {
   __vo uint32_t SWIER ;
   __vo uint32_t PR ;
 
-} EXTI_RegDef_t;
+} EXTI_RegDef_t; // See 12.3.7 EXTI Register Map in the reference manual, page 390
 
 // Instantiate EXTI struct at EXTI specific address
 #define EXTI ((EXTI_RegDef_t*)EXTI_BASEADDR)  
@@ -188,14 +188,14 @@ typedef struct {
   SYSCFG is connected to APB2 bus
 */
 
-//For registers, see 9.2.8 register map for stm32f07xx page 297
+
 typedef struct {
   __vo uint32_t MEMRMP ;
   __vo uint32_t PMC ;
   __vo uint32_t EXTICR[4] ;
   __vo uint32_t CMPCR ;
 
-} SYSCFG_RegDef_t;
+} SYSCFG_RegDef_t; //For registers, see 9.2.8 register map for stm32f07xx page 297
 
 
 // Instantiate SYSCFG struct at SYSCFG specific address
@@ -204,7 +204,7 @@ typedef struct {
 // ======================= END SYSCFG ======================= 
 
 // GENRIC MACROS used in different places
-// such as comparison, ...
+// such as comparison, enabling options, ...
 
 #define ON 1
 #define OFF 0

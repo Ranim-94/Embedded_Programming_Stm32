@@ -545,6 +545,7 @@ void GPIO_IRQ_InterruptConfig(uint8_t IRQNumber,uint8_t ON_OFF_Interrupt){
 	switch(ON_OFF_Interrupt){
 
 	case ON:
+		// Interrupt is ON
 
 		if (IRQNumber <= 31){
 			*NVIC_ISER_0 |= 1<< IRQNumber;
@@ -598,7 +599,7 @@ void GPIO_IRQ_InterruptConfig(uint8_t IRQNumber,uint8_t ON_OFF_Interrupt){
 
 			break;
 
-	} /* End switch case*/
+	} /* End switch(ON_OFF_Interrupt) */
 
 
 } /* End GPIO_IRQ_InterruptConfig()   */
@@ -633,9 +634,24 @@ void GPIO_Interrupt_Priority(uint8_t IRQNumber, uint8_t IRQ_Priority){
 
 void GPIO_IRQ_Handle(uint8_t pin_nb){
 
-	if (EXTI->PR & (1<<pin_nb)){
+	/*
+	 * This function will be called from the main application
+	 *
+	 * */
 
-		// Clear pending register by setting 1
+	if (EXTI->PR & (1<<pin_nb)){
+		/*
+		 * If this is true, this mean that PR register is set to
+		 * 1 at a pin_nb bit position
+		 *
+		 * We must clear it now. This clear operation
+		 * 	- acknowledge the interrupt
+		 * 	- allow some new interrupt to be detected
+		 *
+		 * */
+
+
+		// Clear pending register by setting 1 (this is taken from the reference manual)
 		EXTI->PR |= (1<<pin_nb);
 	}
 

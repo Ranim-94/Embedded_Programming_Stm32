@@ -67,6 +67,8 @@ typedef enum {
 
 
 
+
+
 /* Create a global gpio struct which contains
  * definition of gpio port and gpio pin conf
  * 	*/
@@ -173,6 +175,31 @@ void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,
 
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, 
                          uint8_t PinNumber);
+
+
+// ================= Interrupt and GPIO Part =================
+
+
+// for this enum definition: refer to chapter 12, table 62 page 375
+// from reference manual
+
+typedef enum{
+
+	IRQ_EXTI_0 = 6,
+	IRQ_EXTI_1 = 7,
+	IRQ_EXTI_2 = 8,
+	IRQ_EXTI_3 = 9,
+	IRQ_EXTI_4 = 10,
+	IRQ_EXTI_9_5 = 23,
+	IRQ_EXTI_15_10 = 40
+
+/*
+ * Right hand side in each field represent the IRQ number (position)
+ * in table 62
+ * */
+
+} GPIO_IRQ_EXTI_t ;
+
 
 
 // IRQ Configuration and ISR handling
