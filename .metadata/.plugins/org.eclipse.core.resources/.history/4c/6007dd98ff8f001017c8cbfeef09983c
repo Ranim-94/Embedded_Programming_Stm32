@@ -1,0 +1,23 @@
+
+
+#include "stm32f407G.h"
+#include "gpio_driver.h"
+
+
+int main(){
+
+	/*
+	 * Toggle a LED whenever interrupt is triggered by
+	 * user button during falling edge
+	 *
+	 * User LED: PD12, User Button: PA0
+	 * */
+
+
+
+
+
+
+
+
+} /* End main()*/
