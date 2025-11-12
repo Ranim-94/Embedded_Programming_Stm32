@@ -246,13 +246,22 @@ As example; take \verb|IRQ| = 236.
 
 \end{itemize}
 
-
+\newpage
 \section{Interrupt Flow}
 
 
 After coding a complete example, let's see what happen when an interrupt is activated.\\
 
-\underline{Note:} Recall that an interrupt depend on the peripheral we are programming: like an GPIO interrupt is different than an I2C interrupt.\\
+\underline{Notes:} 
+
+\begin{itemize}
+
+\item Interrupt depend on the peripheral we are programming: like an GPIO interrupt is different than an I2C interrupt.
+
+\item Interrupt doesn't not rely on pure software, there is some hardware role also $\rightarrow$ hardware software interaction
+
+\end{itemize}
+
 
 Now the steps will be stated below, and refer to \autoref{fig:gpio_interrupts:gpio_interrupts_block} to follow along
 
@@ -262,14 +271,29 @@ Now the steps will be stated below, and refer to \autoref{fig:gpio_interrupts:gp
 
 \item When we press the buttong, the \verb|EXTI| engine detect the transition (whether it is falling edge or rising edge)
 
-\item Now if falling edge is detected and interrupt is enabled, then interrupt will be sended via the \verb|EXTIx| line to associated \verb|IRQ| number
-
-\item If the processor is not executing any other interrupt, it fetches the vector addresse for the corresponding \verb|IRQ| number
-
 	\begin{itemize}
-	\item 
+	
+	\item At this stage, the bit inside \verb|EXTI->PR| for a particular pin number is set (this is pure hardware, caused by the event of pressing the button)
+	
 	\end{itemize}
 
+\item Now if falling edge is detected and interrupt is enabled, then interrupt will be sended via the \verb|EXTIx| line to associated \verb|IRQ| number
+
+\item If the processor is not executing any other interrupt, it fetches the \tbi{vector addresse}  for the corresponding \verb|IRQ| number
+
+	\begin{itemize}
+	\item This vector address contains the address of the interrupt routine in which will be executed
+	\end{itemize}
+
+
+\item Inside the ISR, we do the following:
+
+	\begin{itemize}
+	\item Clear the pending bit of \verb|EXTI->PR| register
+	
+	\item Execute user code, like toggling a LED for example
+	
+	\end{itemize}
 
 \end{itemize}
 

@@ -15,7 +15,7 @@
 
 #include <string.h>
 
-#define CYCLE 1e5
+#define CYCLE 25e4
 
 void delay(){
 
